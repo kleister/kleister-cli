@@ -57,7 +57,7 @@ jobs:
             kleister/kleister-cli
           # quay.io/kleister/kleister-cli
           labels: |
-            org.opencontainers.image.vendor=Gopad
+            org.opencontainers.image.vendor=Kleister
             maintainer=Thomas Boerger <thomas@webhippie.de>
           tags: |
             type=ref,event=pr
