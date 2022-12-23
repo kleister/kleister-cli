@@ -1,60 +1,61 @@
 # Kleister: CLI client
 
-[![Build Status](https://cloud.drone.io/api/badges/kleister/kleister-cli/status.svg)](https://cloud.drone.io/kleister/kleister-cli)
-[![Join the Matrix chat at https://matrix.to/#/#kleister:matrix.org](https://img.shields.io/badge/matrix-%23kleister-7bc9a4.svg)](https://matrix.to/#/#kleister:matrix.org)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9833f3cc84c146a2a13cb8fa5543c11e)](https://www.codacy.com/app/kleister/kleister-cli?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kleister/kleister-cli&amp;utm_campaign=Badge_Grade)
-[![Go Doc](https://godoc.org/github.com/kleister/kleister-cli?status.svg)](http://godoc.org/github.com/kleister/kleister-cli)
-[![Go Report](http://goreportcard.com/badge/github.com/kleister/kleister-cli)](http://goreportcard.com/report/github.com/kleister/kleister-cli)
-[![](https://images.microbadger.com/badges/image/kleister/kleister-cli.svg)](http://microbadger.com/images/kleister/kleister-cli "Get your own image badge on microbadger.com")
+[![General Workflow](https://github.com/kleister/kleister-cli/actions/workflows/general.yml/badge.svg)](https://github.com/kleister/kleister-cli/actions/workflows/general.yml) [![Join the Matrix chat at https://matrix.to/#/#kleister:matrix.org](https://img.shields.io/badge/matrix-%23kleister-7bc9a4.svg)](https://matrix.to/#/#kleister:matrix.org) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7143ea13bd644aa3be6749ca967be7d0)](https://www.codacy.com/gh/kleister/kleister-cli/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kleister/kleister-cli&amp;utm_campaign=Badge_Grade) [![Go Reference](https://pkg.go.dev/badge/github.com/kleister/kleister-cli.svg)](https://pkg.go.dev/github.com/kleister/kleister-cli) [![GitHub Repo](https://img.shields.io/badge/github-repo-yellowgreen)](https://github.com/kleister/kleister-cli)
 
-**This project is under heavy development, it's not in a working state yet!**
-
-Within this repository we are building the command-line client to interact with the [Kleister API](https://github.com/kleister/kleister-api) server, for further information take a look at our [documentation](https://kleister.tech).
-
-*Where does this name come from or what does it mean? It's quite simple, it's one german word for paste/glue, I thought it's a good match as it glues together the modpacks for Minecraft.*
-
+Within this repository we are building the command-line client to interact with
+the [Kleister API][api] server.
 
 ## Install
 
-You can download prebuilt binaries from the GitHub releases or from our [download site](http://dl.kleister.tech/cli). You are a Mac user? Just take a look at our [homebrew formula](https://github.com/kleister/homebrew-kleister).
-
+You can download prebuilt binaries from the [GitHub releases][releases] or from
+our [download site][downloads]. If you prefer to use containers you could use
+our images published on [Docker Hub][dockerhub] or [Quay][quay]. You are a Mac
+user? Just take a look at our [homebrew formula][homebrew]. If you need further
+guidance how to install this take a look at our [documentation][docs].
 
 ## Development
 
-Make sure you have a working Go environment, for further reference or a guide take a look at the [install instructions](http://golang.org/doc/install.html). This project requires Go >= v1.11.
+Make sure you have a working Go environment, for further reference or a guide
+take a look at the [install instructions][golang]. This project requires
+Go >= v1.18, at least that's the version we are using.
 
-```bash
+```console
 git clone https://github.com/kleister/kleister-cli.git
 cd kleister-cli
 
-make sync generate build
+make generate build
 
 ./bin/kleister-cli -h
 ```
 
-
 ## Security
 
-If you find a security issue please contact kleister@webhippie.de first.
-
+If you find a security issue please contact
+[kleister@webhippie.de](mailto:kleister@webhippie.de) first.
 
 ## Contributing
 
 Fork -> Patch -> Push -> Pull Request
 
-
 ## Authors
 
-* [Thomas Boerger](https://github.com/tboerger)
-
+-   [Thomas Boerger](https://github.com/tboerger)
 
 ## License
 
 Apache-2.0
 
-
 ## Copyright
 
-```
+```console
 Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 ```
+
+[api]: https://github.com/kleister/kleister-cli
+[releases]: https://github.com/kleister/kleister-cli/releases
+[downloads]: https://dl.kleister.eu/cli
+[homebrew]: https://github.com/kleister/homebrew-kleister
+[dockerhub]: https://hub.docker.com/r/kleister/kleister-cli/tags/
+[quay]: https://quay.io/repository/kleister/kleister-cli?tab=tags
+[docs]: https://kleister.eu/
+[golang]: http://golang.org/doc/install.html
