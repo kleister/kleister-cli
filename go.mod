@@ -7,7 +7,7 @@ require (
 	github.com/bufbuild/connect-go v1.4.1
 	github.com/joho/godotenv v1.4.0
 	github.com/kleister/kleister-go v0.0.0-20221223114549-1d91440c120e
-	github.com/urfave/cli/v2 v2.23.7
+	github.com/urfave/cli/v2 v2.24.1
 )
 
 require (
