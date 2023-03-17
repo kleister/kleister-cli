@@ -40,6 +40,8 @@ github.com/kleister/kleister-go v0.0.0-20230216015631-0e8c2d756fcb h1:dm8mJ1k87w
 github.com/kleister/kleister-go v0.0.0-20230216015631-0e8c2d756fcb/go.mod h1:8KW8GAGm4CjHuHAzIAZxfNhhQkF3RucrPaZ7Og3qL/A=
 github.com/kleister/kleister-go v0.0.0-20230225201241-2a9205cd6cd2 h1:a/EHIBLN/ryQb211NLIVv84TzDudGUI+CS56pqYVDEc=
 github.com/kleister/kleister-go v0.0.0-20230225201241-2a9205cd6cd2/go.mod h1:OV4uSu2UE9PcXs1n0zTKPJ0Hhy8Dcue78GzZVm5FGVA=
+github.com/kleister/kleister-go v0.0.0-20230317111806-b9ab74bd4f67 h1:hZNnl+nD1dJ6XN6QvpObQNbjWUUGF2b9UnOoaOx9efI=
+github.com/kleister/kleister-go v0.0.0-20230317111806-b9ab74bd4f67/go.mod h1:OV4uSu2UE9PcXs1n0zTKPJ0Hhy8Dcue78GzZVm5FGVA=
 github.com/mitchellh/copystructure v1.0.0 h1:Laisrj+bAB6b/yJwB5Bt3ITZhGJdqmxquMKeZ+mmkFQ=
 github.com/mitchellh/copystructure v1.0.0/go.mod h1:SNtv71yrdKgLRyLFxmLdkAbkKEFWgYaq1OVrnRcwhnw=
 github.com/mitchellh/reflectwalk v1.0.0 h1:9D+8oIskB4VJBN5SFlmc27fSlIBZaov1Wpk/IfikLNY=
