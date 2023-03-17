@@ -42,6 +42,8 @@ github.com/kleister/kleister-go v0.0.0-20230225201241-2a9205cd6cd2 h1:a/EHIBLN/r
 github.com/kleister/kleister-go v0.0.0-20230225201241-2a9205cd6cd2/go.mod h1:OV4uSu2UE9PcXs1n0zTKPJ0Hhy8Dcue78GzZVm5FGVA=
 github.com/kleister/kleister-go v0.0.0-20230317111806-b9ab74bd4f67 h1:hZNnl+nD1dJ6XN6QvpObQNbjWUUGF2b9UnOoaOx9efI=
 github.com/kleister/kleister-go v0.0.0-20230317111806-b9ab74bd4f67/go.mod h1:OV4uSu2UE9PcXs1n0zTKPJ0Hhy8Dcue78GzZVm5FGVA=
+github.com/kleister/kleister-go v0.0.0-20230317113132-960496441b34 h1:FhOiuUHjF+c0w6QG+JkulvL8wurMU4awHZ5wE8WwNHU=
+github.com/kleister/kleister-go v0.0.0-20230317113132-960496441b34/go.mod h1:RL+UvaktXbYjMLIkmms4fvOFw5rhR7VC5E5WJqB2iIM=
 github.com/mitchellh/copystructure v1.0.0 h1:Laisrj+bAB6b/yJwB5Bt3ITZhGJdqmxquMKeZ+mmkFQ=
 github.com/mitchellh/copystructure v1.0.0/go.mod h1:SNtv71yrdKgLRyLFxmLdkAbkKEFWgYaq1OVrnRcwhnw=
 github.com/mitchellh/reflectwalk v1.0.0 h1:9D+8oIskB4VJBN5SFlmc27fSlIBZaov1Wpk/IfikLNY=
@@ -103,6 +105,8 @@ golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8T
 google.golang.org/protobuf v1.26.0-rc.1/go.mod h1:jlhhOSvTdKEhbULTjvd4ARK9grFBp09yW+WbY/TyQbw=
 google.golang.org/protobuf v1.28.1 h1:d0NfwRgPtno5B1Wa6L2DAG+KivqkdutMf1UhdNx175w=
 google.golang.org/protobuf v1.28.1/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
+google.golang.org/protobuf v1.30.0 h1:kPPoIgf3TsEvrm0PFe15JQ+570QVxYzEvvHqChK+cng=
+google.golang.org/protobuf v1.30.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.3.0/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
