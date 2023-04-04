@@ -35,6 +35,16 @@
       "semanticCommitType": "deps",
       "semanticCommitScope": "patch",
       "automerge": true
+    },
+    {
+      "description": "Automerge untagged golang libs",
+      "groupName": "untagged libraries",
+      "matchPackageNames": [
+        "github.com/kleister/kleister-go"
+      ],
+      "semanticCommitType": "deps",
+      "semanticCommitScope": "patch",
+      "automerge": true
     }
   ],
   "labels": [
