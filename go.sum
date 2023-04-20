@@ -8,6 +8,8 @@ github.com/bufbuild/connect-go v1.5.2 h1:G4EZd5gF1U1ZhhbVJXplbuUnfKpBZ5j5izqIwu2
 github.com/bufbuild/connect-go v1.5.2/go.mod h1:GmMJYR6orFqD0Y6ZgX8pwQ8j9baizDrIQMm1/a6LnHk=
 github.com/bufbuild/connect-go v1.6.0 h1:OCEB8JuEuvcY5lEKZCQE95CUscqkDtLnQceNhDgi92k=
 github.com/bufbuild/connect-go v1.6.0/go.mod h1:GmMJYR6orFqD0Y6ZgX8pwQ8j9baizDrIQMm1/a6LnHk=
+github.com/bufbuild/connect-go v1.7.0 h1:MGp82v7SCza+3RhsVhV7aMikwxvI3ZfD72YiGt8FYJo=
+github.com/bufbuild/connect-go v1.7.0/go.mod h1:GmMJYR6orFqD0Y6ZgX8pwQ8j9baizDrIQMm1/a6LnHk=
 github.com/cpuguy83/go-md2man/v2 v2.0.2 h1:p1EgwI/C7NhT0JmVkwCD2ZBK8j4aeHQX2pMHHBfMQ6w=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -34,6 +36,8 @@ github.com/kleister/kleister-go v0.0.0-20230321141324-0f4580058bde h1:q37lLC8J1T
 github.com/kleister/kleister-go v0.0.0-20230321141324-0f4580058bde/go.mod h1:RL+UvaktXbYjMLIkmms4fvOFw5rhR7VC5E5WJqB2iIM=
 github.com/kleister/kleister-go v0.0.0-20230404063655-dae81b5bcae1 h1:OQCSEoA2FOlJZ4quGyG1sH8eO/jyRLCJkQ1MZFUNYx0=
 github.com/kleister/kleister-go v0.0.0-20230404063655-dae81b5bcae1/go.mod h1:xZc10pQtXNzCDytGLDYJnaRPmi2z2W2i6mGchPsiIpw=
+github.com/kleister/kleister-go v0.0.0-20230420012918-ecb24015f6ef h1:sQKDfrNo2777JTc2Xdh+44jxYgJj/SXclyxOEDccAAA=
+github.com/kleister/kleister-go v0.0.0-20230420012918-ecb24015f6ef/go.mod h1:Xx0fYRiSQBHpj2RCC3HkeCPx/Ah+2NI/YlYHcxAp6o8=
 github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/mitchellh/copystructure v1.0.0/go.mod h1:SNtv71yrdKgLRyLFxmLdkAbkKEFWgYaq1OVrnRcwhnw=
