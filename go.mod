@@ -6,7 +6,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/bufbuild/connect-go v1.10.0
 	github.com/joho/godotenv v1.5.1
-	github.com/kleister/kleister-go v0.0.0-20231206162244-79de5bd8febf
+	github.com/kleister/kleister-go v0.0.0-20231222105436-4c823b85d195
 	github.com/stretchr/testify v1.8.4
 	github.com/urfave/cli/v2 v2.26.0
 )
@@ -27,6 +27,6 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/crypto v0.17.0 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
