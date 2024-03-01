@@ -30,6 +30,8 @@ github.com/kleister/kleister-go v0.0.0-20231206162244-79de5bd8febf h1:zcBESFGbHR
 github.com/kleister/kleister-go v0.0.0-20231206162244-79de5bd8febf/go.mod h1:1R3pVc87/OqdiRGlNjW7wOOVFdXxgxlS6Fx2y1LtU0M=
 github.com/kleister/kleister-go v0.0.0-20231222105436-4c823b85d195 h1:SV9TjJzSxyPQcvqtaoD6TkAPP7qxw4jTZRWsY9HNZRU=
 github.com/kleister/kleister-go v0.0.0-20231222105436-4c823b85d195/go.mod h1:AEvSsV5cf2tJsHiwjJB9tq8Zq3s+kVKJC5bas9d2C1A=
+github.com/kleister/kleister-go v0.0.0-20240301152901-ab62e0e9dfd3 h1:j+2xPpZT/gdFw0DOpeEblgdt/bZ4XGoPYuSiu2vxz+A=
+github.com/kleister/kleister-go v0.0.0-20240301152901-ab62e0e9dfd3/go.mod h1:tnfX+WKDTGww2t0L3g5mAeLgrtOdwPhC0kW6jk2i5+I=
 github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/mitchellh/copystructure v1.0.0/go.mod h1:SNtv71yrdKgLRyLFxmLdkAbkKEFWgYaq1OVrnRcwhnw=
