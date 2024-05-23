@@ -6,7 +6,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/bufbuild/connect-go v1.10.0
 	github.com/joho/godotenv v1.5.1
-	github.com/kleister/kleister-go v0.0.0-20240301152901-ab62e0e9dfd3
+	github.com/kleister/kleister-go v1.0.0
 	github.com/stretchr/testify v1.9.0
 	github.com/urfave/cli/v2 v2.27.2
 )
