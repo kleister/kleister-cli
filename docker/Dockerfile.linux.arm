@@ -1,12 +1,12 @@
-FROM arm32v6/alpine:3.20 AS build
-RUN apk add --no-cache ca-certificates mailcap
+FROM arm32v6/alpine:3.20
 
-FROM scratch
+RUN apk add --no-cache ca-certificates mailcap && \
+    addgroup -g 1337 kleister && \
+    adduser -D -u 1337 -h /var/lib/kleister -G kleister kleister
 
 ENTRYPOINT ["/usr/bin/kleister-cli"]
 CMD ["help"]
 
-COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=build /etc/mime.types /etc/
-
 COPY bin/kleister-cli /usr/bin/kleister-cli
+WORKDIR /var/lib/kleister
+USER kleister

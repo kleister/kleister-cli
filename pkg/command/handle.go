@@ -1,78 +1,104 @@
 package command
 
 import (
+	"bytes"
+	"context"
 	"fmt"
-	"net"
+	"net/http"
 	"net/url"
 	"os"
-	"syscall"
+	"text/template"
 
 	"github.com/kleister/kleister-go/kleister"
-	"github.com/urfave/cli/v2"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
-
-// HandleFunc is the real handle implementation.
-type HandleFunc func(c *cli.Context, client *Client) error
 
 // Client simply wraps the openapi client including authentication.
 type Client struct {
-	*kleister.Client
+	*kleister.ClientWithResponses
 }
 
+// HandleFunc is the real handle implementation.
+type HandleFunc func(ccmd *cobra.Command, args []string, client *Client) error
+
 // Handle wraps the command function handler.
-func Handle(c *cli.Context, fn HandleFunc) error {
-	if c.String("server") == "" {
-		fmt.Fprintf(os.Stderr, "Error: you must provide the server address.\n")
+func Handle(ccmd *cobra.Command, args []string, fn HandleFunc) {
+	if viper.GetString("server.address") == "" {
+		fmt.Fprintf(os.Stderr, "Error: You must provide the server address.\n")
 		os.Exit(1)
 	}
 
-	server, err := url.Parse(c.String("server"))
+	server, err := url.Parse(viper.GetString("server.address"))
 
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: invalid server address, bad format?\n")
+		fmt.Fprintf(os.Stderr, "Error: Invalid server address, bad format?\n")
+		os.Exit(1)
+	}
+
+	child, err := kleister.NewClientWithResponses(
+		server.String(),
+		kleister.WithRequestEditorFn(func(_ context.Context, req *http.Request) error {
+			if viper.GetString("server.token") != "" {
+				req.Header.Set(
+					"X-API-Key",
+					viper.GetString("server.token"),
+				)
+			} else {
+				req.SetBasicAuth(
+					viper.GetString("server.username"),
+					viper.GetString("server.password"),
+				)
+			}
+
+			return nil
+		}),
+	)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: Failed to initialize client library\n")
 		os.Exit(1)
 	}
 
 	client := &Client{
-		Client: kleister.New(
-			kleister.WithBaseURL(server.String()),
-		),
+		ClientWithResponses: child,
 	}
 
-	if err := fn(c, client); err != nil {
+	if err := fn(ccmd, args, client); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err.Error())
 		os.Exit(2)
 	}
-
-	return nil
 }
 
-// PrettyError catches regular networking errors and prints it.
-func PrettyError(err error) error {
-	if val, ok := err.(net.Error); ok && val.Timeout() {
-		return fmt.Errorf("connection to server timed out")
+var tmplValidationError = `{{ .Message }}
+{{ range $validation := .Errors }}
+* {{ $validation.Field }}: {{ $validation.Message }}
+{{ end }}
+`
+
+func validationError(notification *kleister.Notification) error {
+	tmpl, err := template.New(
+		"_",
+	).Funcs(
+		globalFuncMap,
+	).Funcs(
+		basicFuncMap,
+	).Parse(
+		tmplValidationError,
+	)
+
+	if err != nil {
+		return fmt.Errorf("failed to process template: %w", err)
 	}
 
-	switch val := err.(type) {
-	case *net.OpError:
-		switch val.Op {
-		case "dial":
-			return fmt.Errorf("unknown host for server connection")
-		case "read":
-			return fmt.Errorf("connection to server had been refused")
-		default:
-			return fmt.Errorf("failed to connect to the server")
-		}
-	case syscall.Errno:
-		switch val {
-		case syscall.ECONNREFUSED:
-			return fmt.Errorf("connection to server had been refused")
-		default:
-			return fmt.Errorf("failed to connect to the server")
-		}
-	case net.Error:
-		return fmt.Errorf("failed to connect to the server")
-	default:
-		return err
+	message := bytes.NewBufferString("")
+
+	if err := tmpl.Execute(
+		message,
+		notification,
+	); err != nil {
+		return fmt.Errorf("failed to render template: %w", err)
 	}
+
+	return fmt.Errorf(message.String())
 }
