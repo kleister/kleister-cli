@@ -39,13 +39,13 @@ func init() {
 }
 
 func userDeleteAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if userShowArgs.ID == "" {
+	if userDeleteArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
 	resp, err := client.DeleteUserWithResponse(
 		ccmd.Context(),
-		userShowArgs.ID,
+		userDeleteArgs.ID,
 	)
 
 	if err != nil {

@@ -39,13 +39,13 @@ func init() {
 }
 
 func teamDeleteAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if teamShowArgs.ID == "" {
+	if teamDeleteArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
 	resp, err := client.DeleteTeamWithResponse(
 		ccmd.Context(),
-		teamShowArgs.ID,
+		teamDeleteArgs.ID,
 	)
 
 	if err != nil {

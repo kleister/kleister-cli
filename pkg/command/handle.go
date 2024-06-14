@@ -38,21 +38,13 @@ func Handle(ccmd *cobra.Command, args []string, fn HandleFunc) {
 
 	child, err := kleister.NewClientWithResponses(
 		server.String(),
-		kleister.WithRequestEditorFn(func(_ context.Context, req *http.Request) error {
-			if viper.GetString("server.token") != "" {
-				req.Header.Set(
-					"X-API-Key",
-					viper.GetString("server.token"),
-				)
-			} else {
-				req.SetBasicAuth(
-					viper.GetString("server.username"),
-					viper.GetString("server.password"),
-				)
-			}
-
-			return nil
-		}),
+		kleister.WithRequestEditorFn(WithTokenAuth(
+			viper.GetString("server.token"),
+		)),
+		kleister.WithRequestEditorFn(WithBasicAuth(
+			viper.GetString("server.username"),
+			viper.GetString("server.password"),
+		)),
 	)
 
 	if err != nil {
@@ -67,6 +59,30 @@ func Handle(ccmd *cobra.Command, args []string, fn HandleFunc) {
 	if err := fn(ccmd, args, client); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s\n", err.Error())
 		os.Exit(2)
+	}
+}
+
+func WithTokenAuth(token string) kleister.RequestEditorFn {
+	return func(_ context.Context, req *http.Request) error {
+		if token != "" {
+			req.Header.Set(
+				"X-API-Key",
+				token,
+			)
+		}
+		return nil
+	}
+}
+
+func WithBasicAuth(username, password string) kleister.RequestEditorFn {
+	return func(_ context.Context, req *http.Request) error {
+		if username != "" && password != "" {
+			req.SetBasicAuth(
+				username,
+				password,
+			)
+		}
+		return nil
 	}
 }
 
