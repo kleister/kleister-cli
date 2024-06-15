@@ -62,6 +62,7 @@ func Handle(ccmd *cobra.Command, args []string, fn HandleFunc) {
 	}
 }
 
+// WithTokenAuth integrates token auth into the sdk.
 func WithTokenAuth(token string) kleister.RequestEditorFn {
 	return func(_ context.Context, req *http.Request) error {
 		if token != "" {
@@ -74,6 +75,7 @@ func WithTokenAuth(token string) kleister.RequestEditorFn {
 	}
 }
 
+// WithBasicAuth integrates basic auth into the sdk.
 func WithBasicAuth(username, password string) kleister.RequestEditorFn {
 	return func(_ context.Context, req *http.Request) error {
 		if username != "" && password != "" {
