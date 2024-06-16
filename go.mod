@@ -5,7 +5,8 @@ go 1.18
 require (
 	github.com/drone/funcmap v0.0.0-20240227160611-7e19e9cd5a1c
 	github.com/joho/godotenv v1.5.1
-	github.com/spf13/cobra v1.8.0
+	github.com/kleister/kleister-go v1.2.0
+	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
 )
@@ -17,7 +18,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/kleister/kleister-go v1.2.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/oapi-codegen/runtime v1.1.1 // indirect
