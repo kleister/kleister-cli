@@ -67,7 +67,7 @@ func userTeamPermitAction(ccmd *cobra.Command, _ []string, client *Client) error
 		Team: userTeamPermitArgs.Team,
 	}
 
-	if teamUserAppendArgs.Perm != "" {
+	if userTeamPermitArgs.Perm != "" {
 		body.Perm = kleister.ToPtr(userTeamPerm(userTeamPermitArgs.Perm))
 	}
 

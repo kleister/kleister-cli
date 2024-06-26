@@ -9,71 +9,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type userTeamAppendBind struct {
+type userModPermitBind struct {
 	ID   string
-	Team string
+	Mod  string
 	Perm string
 }
 
 var (
-	userTeamAppendCmd = &cobra.Command{
-		Use:   "append",
-		Short: "Append team to user",
+	userModPermitCmd = &cobra.Command{
+		Use:   "permit",
+		Short: "Permit mod for user",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, userTeamAppendAction)
+			Handle(ccmd, args, userModPermitAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	userTeamAppendArgs = userTeamAppendBind{}
+	userModPermitArgs = userModPermitBind{}
 )
 
 func init() {
-	userTeamCmd.AddCommand(userTeamAppendCmd)
+	userModCmd.AddCommand(userModPermitCmd)
 
-	userTeamAppendCmd.Flags().StringVarP(
-		&userTeamAppendArgs.ID,
+	userModPermitCmd.Flags().StringVarP(
+		&userModPermitArgs.ID,
 		"id",
 		"i",
 		"",
 		"User ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Team,
-		"team",
+	userModPermitCmd.Flags().StringVar(
+		&userModPermitArgs.Mod,
+		"mod",
 		"",
-		"Team ID or slug",
+		"Mod ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Perm,
+	userModPermitCmd.Flags().StringVar(
+		&userModPermitArgs.Perm,
 		"perm",
 		"",
-		"Role for the team",
+		"Role for the mod",
 	)
 }
 
-func userTeamAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if userTeamAppendArgs.ID == "" {
+func userModPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if userModPermitArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if userTeamAppendArgs.Team == "" {
-		return fmt.Errorf("you must provide a team ID or a slug")
+	if userModPermitArgs.Mod == "" {
+		return fmt.Errorf("you must provide a mod ID or a slug")
 	}
 
-	body := kleister.AttachUserToTeamJSONRequestBody{
-		Team: userTeamAppendArgs.Team,
+	body := kleister.PermitUserModJSONRequestBody{
+		Mod: userModPermitArgs.Mod,
 	}
 
-	if userTeamAppendArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(userTeamPerm(userTeamAppendArgs.Perm))
+	if userModPermitArgs.Perm != "" {
+		body.Perm = kleister.ToPtr(userModPerm(userModPermitArgs.Perm))
 	}
 
-	resp, err := client.AttachUserToTeamWithResponse(
+	resp, err := client.PermitUserModWithResponse(
 		ccmd.Context(),
-		userTeamAppendArgs.ID,
+		userModPermitArgs.ID,
 		body,
 	)
 

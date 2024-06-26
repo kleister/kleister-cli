@@ -9,71 +9,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type userTeamAppendBind struct {
+type userModAppendBind struct {
 	ID   string
-	Team string
+	Mod  string
 	Perm string
 }
 
 var (
-	userTeamAppendCmd = &cobra.Command{
+	userModAppendCmd = &cobra.Command{
 		Use:   "append",
-		Short: "Append team to user",
+		Short: "Append mod to user",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, userTeamAppendAction)
+			Handle(ccmd, args, userModAppendAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	userTeamAppendArgs = userTeamAppendBind{}
+	userModAppendArgs = userModAppendBind{}
 )
 
 func init() {
-	userTeamCmd.AddCommand(userTeamAppendCmd)
+	userModCmd.AddCommand(userModAppendCmd)
 
-	userTeamAppendCmd.Flags().StringVarP(
-		&userTeamAppendArgs.ID,
+	userModAppendCmd.Flags().StringVarP(
+		&userModAppendArgs.ID,
 		"id",
 		"i",
 		"",
 		"User ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Team,
-		"team",
+	userModAppendCmd.Flags().StringVar(
+		&userModAppendArgs.Mod,
+		"mod",
 		"",
-		"Team ID or slug",
+		"Mod ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Perm,
+	userModAppendCmd.Flags().StringVar(
+		&userModAppendArgs.Perm,
 		"perm",
 		"",
-		"Role for the team",
+		"Role for the mod",
 	)
 }
 
-func userTeamAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if userTeamAppendArgs.ID == "" {
+func userModAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if userModAppendArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if userTeamAppendArgs.Team == "" {
-		return fmt.Errorf("you must provide a team ID or a slug")
+	if userModAppendArgs.Mod == "" {
+		return fmt.Errorf("you must provide a mod ID or a slug")
 	}
 
-	body := kleister.AttachUserToTeamJSONRequestBody{
-		Team: userTeamAppendArgs.Team,
+	body := kleister.AttachUserToModJSONRequestBody{
+		Mod: userModAppendArgs.Mod,
 	}
 
-	if userTeamAppendArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(userTeamPerm(userTeamAppendArgs.Perm))
+	if userModAppendArgs.Perm != "" {
+		body.Perm = kleister.ToPtr(userModPerm(userModAppendArgs.Perm))
 	}
 
-	resp, err := client.AttachUserToTeamWithResponse(
+	resp, err := client.AttachUserToModWithResponse(
 		ccmd.Context(),
-		userTeamAppendArgs.ID,
+		userModAppendArgs.ID,
 		body,
 	)
 

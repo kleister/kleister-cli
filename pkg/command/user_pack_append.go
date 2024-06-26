@@ -9,71 +9,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type userTeamAppendBind struct {
+type userPackAppendBind struct {
 	ID   string
-	Team string
+	Pack string
 	Perm string
 }
 
 var (
-	userTeamAppendCmd = &cobra.Command{
+	userPackAppendCmd = &cobra.Command{
 		Use:   "append",
-		Short: "Append team to user",
+		Short: "Append pack to user",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, userTeamAppendAction)
+			Handle(ccmd, args, userPackAppendAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	userTeamAppendArgs = userTeamAppendBind{}
+	userPackAppendArgs = userPackAppendBind{}
 )
 
 func init() {
-	userTeamCmd.AddCommand(userTeamAppendCmd)
+	userPackCmd.AddCommand(userPackAppendCmd)
 
-	userTeamAppendCmd.Flags().StringVarP(
-		&userTeamAppendArgs.ID,
+	userPackAppendCmd.Flags().StringVarP(
+		&userPackAppendArgs.ID,
 		"id",
 		"i",
 		"",
 		"User ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Team,
-		"team",
+	userPackAppendCmd.Flags().StringVar(
+		&userPackAppendArgs.Pack,
+		"pack",
 		"",
-		"Team ID or slug",
+		"Pack ID or slug",
 	)
 
-	userTeamAppendCmd.Flags().StringVar(
-		&userTeamAppendArgs.Perm,
+	userPackAppendCmd.Flags().StringVar(
+		&userPackAppendArgs.Perm,
 		"perm",
 		"",
-		"Role for the team",
+		"Role for the pack",
 	)
 }
 
-func userTeamAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if userTeamAppendArgs.ID == "" {
+func userPackAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if userPackAppendArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if userTeamAppendArgs.Team == "" {
-		return fmt.Errorf("you must provide a team ID or a slug")
+	if userPackAppendArgs.Pack == "" {
+		return fmt.Errorf("you must provide a pack ID or a slug")
 	}
 
-	body := kleister.AttachUserToTeamJSONRequestBody{
-		Team: userTeamAppendArgs.Team,
+	body := kleister.AttachUserToPackJSONRequestBody{
+		Pack: userPackAppendArgs.Pack,
 	}
 
-	if userTeamAppendArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(userTeamPerm(userTeamAppendArgs.Perm))
+	if userPackAppendArgs.Perm != "" {
+		body.Perm = kleister.ToPtr(userPackPerm(userPackAppendArgs.Perm))
 	}
 
-	resp, err := client.AttachUserToTeamWithResponse(
+	resp, err := client.AttachUserToPackWithResponse(
 		ccmd.Context(),
-		userTeamAppendArgs.ID,
+		userPackAppendArgs.ID,
 		body,
 	)
 
