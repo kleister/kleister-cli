@@ -9,43 +9,43 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type teamDeleteBind struct {
+type modDeleteBind struct {
 	ID string
 }
 
 var (
-	teamDeleteCmd = &cobra.Command{
+	modDeleteCmd = &cobra.Command{
 		Use:   "delete",
-		Short: "Delete an team",
+		Short: "Delete an mod",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, teamDeleteAction)
+			Handle(ccmd, args, modDeleteAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	teamDeleteArgs = teamDeleteBind{}
+	modDeleteArgs = modDeleteBind{}
 )
 
 func init() {
-	teamCmd.AddCommand(teamDeleteCmd)
+	modCmd.AddCommand(modDeleteCmd)
 
-	teamDeleteCmd.Flags().StringVarP(
-		&teamDeleteArgs.ID,
+	modDeleteCmd.Flags().StringVarP(
+		&modDeleteArgs.ID,
 		"id",
 		"i",
 		"",
-		"Team ID or slug",
+		"Mod ID or slug",
 	)
 }
 
-func teamDeleteAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if teamDeleteArgs.ID == "" {
+func modDeleteAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if modDeleteArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	resp, err := client.DeleteTeamWithResponse(
+	resp, err := client.DeleteModWithResponse(
 		ccmd.Context(),
-		teamDeleteArgs.ID,
+		modDeleteArgs.ID,
 	)
 
 	if err != nil {

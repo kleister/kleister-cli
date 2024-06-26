@@ -54,7 +54,7 @@ func userDeleteAction(ccmd *cobra.Command, _ []string, client *Client) error {
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		fmt.Fprintln(os.Stderr, "successfully delete")
+		fmt.Fprintln(os.Stderr, "successfully deleted")
 	case http.StatusForbidden:
 		return fmt.Errorf(kleister.FromPtr(resp.JSON403.Message))
 	case http.StatusNotFound:
