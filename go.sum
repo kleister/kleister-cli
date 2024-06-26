@@ -25,6 +25,8 @@ github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwA
 github.com/juju/gnuflag v0.0.0-20171113085948-2ce1bb71843d/go.mod h1:2PavIy+JPciBPrBUjwbNvtwB6RQlve+hkpll6QSNmOE=
 github.com/kleister/kleister-go v1.3.0 h1:XbV8FH0R+Yj70iOV5sIQ92cySkYREq9lBfZlZif10Ks=
 github.com/kleister/kleister-go v1.3.0/go.mod h1:f8BAWsZdarhmDS/Tr3MPAewVF4IK7lWd6bEt4p5C8PI=
+github.com/kleister/kleister-go v1.3.1 h1:rb3kW8SpVKHK/sp6QIZfg5DUhbSAF7lP3zWGC8k/xMc=
+github.com/kleister/kleister-go v1.3.1/go.mod h1:f8BAWsZdarhmDS/Tr3MPAewVF4IK7lWd6bEt4p5C8PI=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/magiconair/properties v1.8.7 h1:IeQXZAiQcpL9mgcAe1Nu6cX9LLw6ExEHKjN0VQdvPDY=
