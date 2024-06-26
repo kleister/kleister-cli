@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -18,6 +19,11 @@ Name: {{ .Name }}
 
 type teamListBind struct {
 	Format string
+	Search string
+	Sort   string
+	Order  string
+	Limit  int
+	Offset int
 }
 
 var (
@@ -42,15 +48,84 @@ func init() {
 		tmplTeamList,
 		"Custom output format",
 	)
+
+	teamListCmd.Flags().StringVar(
+		&teamListArgs.Search,
+		"search",
+		"",
+		"Search query",
+	)
+
+	teamListCmd.Flags().StringVar(
+		&teamListArgs.Sort,
+		"sort",
+		"",
+		"Sorting column",
+	)
+
+	teamListCmd.Flags().StringVar(
+		&teamListArgs.Order,
+		"order",
+		"asc",
+		"Sorting order",
+	)
+
+	teamListCmd.Flags().IntVar(
+		&teamListArgs.Limit,
+		"limit",
+		0,
+		"Paging limit",
+	)
+
+	teamListCmd.Flags().IntVar(
+		&teamListArgs.Offset,
+		"offset",
+		0,
+		"Paging offset",
+	)
 }
 
 func teamListAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	params := &kleister.ListTeamsParams{
+		Limit:  kleister.ToPtr(10000),
+		Offset: kleister.ToPtr(0),
+	}
+
+	if minecraftBuildListArgs.Search != "" {
+		params.Search = kleister.ToPtr(minecraftBuildListArgs.Search)
+	}
+
+	if minecraftBuildListArgs.Sort != "" {
+		val, err := kleister.ToListTeamsParamsSort(minecraftBuildListArgs.Sort)
+
+		if err != nil && errors.Is(err, kleister.ErrListTeamsParamsSort) {
+			return fmt.Errorf("invalid sort attribute")
+		}
+
+		params.Sort = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Order != "" {
+		val, err := kleister.ToListTeamsParamsOrder(minecraftBuildListArgs.Order)
+
+		if err != nil && errors.Is(err, kleister.ErrListTeamsParamsOrder) {
+			return fmt.Errorf("invalid order attribute")
+		}
+
+		params.Order = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(minecraftBuildListArgs.Limit)
+	}
+
+	if minecraftBuildListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(minecraftBuildListArgs.Offset)
+	}
+
 	resp, err := client.ListTeamsWithResponse(
 		ccmd.Context(),
-		&kleister.ListTeamsParams{
-			Limit:  kleister.ToPtr(10000),
-			Offset: kleister.ToPtr(0),
-		},
+		params,
 	)
 
 	if err != nil {

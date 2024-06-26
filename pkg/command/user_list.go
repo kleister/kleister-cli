@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -18,6 +19,11 @@ Email: {{ .Email }}
 
 type userListBind struct {
 	Format string
+	Search string
+	Sort   string
+	Order  string
+	Limit  int
+	Offset int
 }
 
 var (
@@ -42,15 +48,84 @@ func init() {
 		tmplUserList,
 		"Custom output format",
 	)
+
+	userListCmd.Flags().StringVar(
+		&userListArgs.Search,
+		"search",
+		"",
+		"Search query",
+	)
+
+	userListCmd.Flags().StringVar(
+		&userListArgs.Sort,
+		"sort",
+		"",
+		"Sorting column",
+	)
+
+	userListCmd.Flags().StringVar(
+		&userListArgs.Order,
+		"order",
+		"asc",
+		"Sorting order",
+	)
+
+	userListCmd.Flags().IntVar(
+		&userListArgs.Limit,
+		"limit",
+		0,
+		"Paging limit",
+	)
+
+	userListCmd.Flags().IntVar(
+		&userListArgs.Offset,
+		"offset",
+		0,
+		"Paging offset",
+	)
 }
 
 func userListAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	params := &kleister.ListUsersParams{
+		Limit:  kleister.ToPtr(10000),
+		Offset: kleister.ToPtr(0),
+	}
+
+	if minecraftBuildListArgs.Search != "" {
+		params.Search = kleister.ToPtr(minecraftBuildListArgs.Search)
+	}
+
+	if minecraftBuildListArgs.Sort != "" {
+		val, err := kleister.ToListUsersParamsSort(minecraftBuildListArgs.Sort)
+
+		if err != nil && errors.Is(err, kleister.ErrListUsersParamsSort) {
+			return fmt.Errorf("invalid sort attribute")
+		}
+
+		params.Sort = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Order != "" {
+		val, err := kleister.ToListUsersParamsOrder(minecraftBuildListArgs.Order)
+
+		if err != nil && errors.Is(err, kleister.ErrListUsersParamsOrder) {
+			return fmt.Errorf("invalid order attribute")
+		}
+
+		params.Order = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(minecraftBuildListArgs.Limit)
+	}
+
+	if minecraftBuildListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(minecraftBuildListArgs.Offset)
+	}
+
 	resp, err := client.ListUsersWithResponse(
 		ccmd.Context(),
-		&kleister.ListUsersParams{
-			Limit:  kleister.ToPtr(10000),
-			Offset: kleister.ToPtr(0),
-		},
+		params,
 	)
 
 	if err != nil {

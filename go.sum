@@ -28,6 +28,8 @@ github.com/kleister/kleister-go v1.2.0 h1:0eRj//l0fZmsK1Dy07X5/n+ftwoK+Rl+LpsLPa
 github.com/kleister/kleister-go v1.2.0/go.mod h1:f8BAWsZdarhmDS/Tr3MPAewVF4IK7lWd6bEt4p5C8PI=
 github.com/kleister/kleister-go v1.2.1 h1:tg0hdQ4cE7o+N/k5pEpPqVHb+m2HQpX6Zqbi+vC+dzE=
 github.com/kleister/kleister-go v1.2.1/go.mod h1:f8BAWsZdarhmDS/Tr3MPAewVF4IK7lWd6bEt4p5C8PI=
+github.com/kleister/kleister-go v1.3.0 h1:XbV8FH0R+Yj70iOV5sIQ92cySkYREq9lBfZlZif10Ks=
+github.com/kleister/kleister-go v1.3.0/go.mod h1:f8BAWsZdarhmDS/Tr3MPAewVF4IK7lWd6bEt4p5C8PI=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/magiconair/properties v1.8.7 h1:IeQXZAiQcpL9mgcAe1Nu6cX9LLw6ExEHKjN0VQdvPDY=

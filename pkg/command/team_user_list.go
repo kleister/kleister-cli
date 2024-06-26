@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -13,6 +14,11 @@ import (
 type teamUserListBind struct {
 	ID     string
 	Format string
+	Search string
+	Sort   string
+	Order  string
+	Limit  int
+	Offset int
 }
 
 // tmplTeamUserList represents a row within team user listing.
@@ -52,6 +58,41 @@ func init() {
 		tmplTeamUserList,
 		"Custom output format",
 	)
+
+	teamUserListCmd.Flags().StringVar(
+		&teamUserListArgs.Search,
+		"search",
+		"",
+		"Search query",
+	)
+
+	teamUserListCmd.Flags().StringVar(
+		&teamUserListArgs.Sort,
+		"sort",
+		"",
+		"Sorting column",
+	)
+
+	teamUserListCmd.Flags().StringVar(
+		&teamUserListArgs.Order,
+		"order",
+		"asc",
+		"Sorting order",
+	)
+
+	teamUserListCmd.Flags().IntVar(
+		&teamUserListArgs.Limit,
+		"limit",
+		0,
+		"Paging limit",
+	)
+
+	teamUserListCmd.Flags().IntVar(
+		&teamUserListArgs.Offset,
+		"offset",
+		0,
+		"Paging offset",
+	)
 }
 
 func teamUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
@@ -59,13 +100,47 @@ func teamUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
+	params := &kleister.ListTeamUsersParams{
+		Limit:  kleister.ToPtr(10000),
+		Offset: kleister.ToPtr(0),
+	}
+
+	if minecraftBuildListArgs.Search != "" {
+		params.Search = kleister.ToPtr(minecraftBuildListArgs.Search)
+	}
+
+	if minecraftBuildListArgs.Sort != "" {
+		val, err := kleister.ToListTeamUsersParamsSort(minecraftBuildListArgs.Sort)
+
+		if err != nil && errors.Is(err, kleister.ErrListTeamUsersParamsSort) {
+			return fmt.Errorf("invalid sort attribute")
+		}
+
+		params.Sort = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Order != "" {
+		val, err := kleister.ToListTeamUsersParamsOrder(minecraftBuildListArgs.Order)
+
+		if err != nil && errors.Is(err, kleister.ErrListTeamUsersParamsOrder) {
+			return fmt.Errorf("invalid order attribute")
+		}
+
+		params.Order = kleister.ToPtr(val)
+	}
+
+	if minecraftBuildListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(minecraftBuildListArgs.Limit)
+	}
+
+	if minecraftBuildListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(minecraftBuildListArgs.Offset)
+	}
+
 	resp, err := client.ListTeamUsersWithResponse(
 		ccmd.Context(),
 		teamUserListArgs.ID,
-		&kleister.ListTeamUsersParams{
-			Limit:  kleister.ToPtr(10000),
-			Offset: kleister.ToPtr(0),
-		},
+		params,
 	)
 
 	if err != nil {
