@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/kleister/kleister-go/kleister"
 	"github.com/spf13/cobra"
 )
 
@@ -16,4 +17,15 @@ func init() {
 	packCmd.AddCommand(packUserCmd)
 }
 
-// TODO pack user sub commands
+func packUserPerm(val string) kleister.PackUserParamsPerm {
+	switch val {
+	case "owner":
+		return kleister.PackUserParamsPermOwner
+	case "admin":
+		return kleister.PackUserParamsPermAdmin
+	case "user":
+		return kleister.PackUserParamsPermUser
+	}
+
+	return kleister.PackUserParamsPermUser
+}
