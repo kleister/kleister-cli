@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -68,7 +69,13 @@ func userModAppendAction(ccmd *cobra.Command, _ []string, client *Client) error 
 	}
 
 	if userModAppendArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(userModPerm(userModAppendArgs.Perm))
+		val, err := kleister.ToUserModParamsPerm(userModAppendArgs.Perm)
+
+		if err != nil && errors.Is(err, kleister.ErrUserModParamsPerm) {
+			return fmt.Errorf("invalid perm attribute")
+		}
+
+		body.Perm = kleister.ToPtr(val)
 	}
 
 	resp, err := client.AttachUserToModWithResponse(

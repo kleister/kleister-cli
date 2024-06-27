@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -68,7 +69,13 @@ func teamModAppendAction(ccmd *cobra.Command, _ []string, client *Client) error 
 	}
 
 	if teamModAppendArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(teamModPerm(teamModAppendArgs.Perm))
+		val, err := kleister.ToTeamModParamsPerm(teamModAppendArgs.Perm)
+
+		if err != nil && errors.Is(err, kleister.ErrTeamModParamsPerm) {
+			return fmt.Errorf("invalid perm attribute")
+		}
+
+		body.Perm = kleister.ToPtr(val)
 	}
 
 	resp, err := client.AttachTeamToModWithResponse(

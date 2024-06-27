@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -68,7 +69,13 @@ func modUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error 
 	}
 
 	if modUserPermitArgs.Perm != "" {
-		body.Perm = kleister.ToPtr(modUserPerm(modUserPermitArgs.Perm))
+		val, err := kleister.ToModUserParamsPerm(modUserPermitArgs.Perm)
+
+		if err != nil && errors.Is(err, kleister.ErrModUserParamsPerm) {
+			return fmt.Errorf("invalid perm attribute")
+		}
+
+		body.Perm = kleister.ToPtr(val)
 	}
 
 	resp, err := client.PermitModUserWithResponse(
