@@ -3,6 +3,7 @@ package command
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -118,5 +119,5 @@ func validationError(notification *kleister.Notification) error {
 		return fmt.Errorf("failed to render template: %w", err)
 	}
 
-	return fmt.Errorf(message.String())
+	return errors.New(message.String())
 }

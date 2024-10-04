@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -103,9 +104,9 @@ func profileLoginAction(ccmd *cobra.Command, _ []string, client *Client) error {
 			return fmt.Errorf("failed to render template: %w", err)
 		}
 	case http.StatusUnauthorized:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON401.Message))
+		return errors.New(kleister.FromPtr(resp.JSON401.Message))
 	case http.StatusInternalServerError:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON500.Message))
+		return errors.New(kleister.FromPtr(resp.JSON500.Message))
 	default:
 		return fmt.Errorf("unknown api response")
 	}

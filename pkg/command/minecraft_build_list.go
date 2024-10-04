@@ -178,11 +178,11 @@ func minecraftBuildListAction(ccmd *cobra.Command, _ []string, client *Client) e
 			}
 		}
 	case http.StatusForbidden:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON403.Message))
+		return errors.New(kleister.FromPtr(resp.JSON403.Message))
 	case http.StatusNotFound:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON404.Message))
+		return errors.New(kleister.FromPtr(resp.JSON404.Message))
 	case http.StatusInternalServerError:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON500.Message))
+		return errors.New(kleister.FromPtr(resp.JSON500.Message))
 	default:
 		return fmt.Errorf("unknown api response")
 	}

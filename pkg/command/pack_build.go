@@ -15,5 +15,3 @@ var (
 func init() {
 	packCmd.AddCommand(packBuildCmd)
 }
-
-// TODO pack build sub commands

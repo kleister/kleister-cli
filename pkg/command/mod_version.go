@@ -15,5 +15,3 @@ var (
 func init() {
 	modCmd.AddCommand(modVersionCmd)
 }
-
-// TODO mod version sub commands

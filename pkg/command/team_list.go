@@ -91,12 +91,12 @@ func teamListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		Offset: kleister.ToPtr(0),
 	}
 
-	if minecraftBuildListArgs.Search != "" {
-		params.Search = kleister.ToPtr(minecraftBuildListArgs.Search)
+	if teamListArgs.Search != "" {
+		params.Search = kleister.ToPtr(teamListArgs.Search)
 	}
 
-	if minecraftBuildListArgs.Sort != "" {
-		val, err := kleister.ToListTeamsParamsSort(minecraftBuildListArgs.Sort)
+	if teamListArgs.Sort != "" {
+		val, err := kleister.ToListTeamsParamsSort(teamListArgs.Sort)
 
 		if err != nil && errors.Is(err, kleister.ErrListTeamsParamsSort) {
 			return fmt.Errorf("invalid sort attribute")
@@ -105,8 +105,8 @@ func teamListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		params.Sort = kleister.ToPtr(val)
 	}
 
-	if minecraftBuildListArgs.Order != "" {
-		val, err := kleister.ToListTeamsParamsOrder(minecraftBuildListArgs.Order)
+	if teamListArgs.Order != "" {
+		val, err := kleister.ToListTeamsParamsOrder(teamListArgs.Order)
 
 		if err != nil && errors.Is(err, kleister.ErrListTeamsParamsOrder) {
 			return fmt.Errorf("invalid order attribute")
@@ -115,12 +115,12 @@ func teamListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		params.Order = kleister.ToPtr(val)
 	}
 
-	if minecraftBuildListArgs.Limit != 0 {
-		params.Limit = kleister.ToPtr(minecraftBuildListArgs.Limit)
+	if teamListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(teamListArgs.Limit)
 	}
 
-	if minecraftBuildListArgs.Offset != 0 {
-		params.Offset = kleister.ToPtr(minecraftBuildListArgs.Offset)
+	if teamListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(teamListArgs.Offset)
 	}
 
 	resp, err := client.ListTeamsWithResponse(
@@ -164,9 +164,9 @@ func teamListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 			}
 		}
 	case http.StatusForbidden:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON403.Message))
+		return errors.New(kleister.FromPtr(resp.JSON403.Message))
 	case http.StatusInternalServerError:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON500.Message))
+		return errors.New(kleister.FromPtr(resp.JSON500.Message))
 	default:
 		return fmt.Errorf("unknown api response")
 	}

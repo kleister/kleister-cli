@@ -105,12 +105,12 @@ func userPackListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		Offset: kleister.ToPtr(0),
 	}
 
-	if minecraftBuildListArgs.Search != "" {
-		params.Search = kleister.ToPtr(minecraftBuildListArgs.Search)
+	if userPackListArgs.Search != "" {
+		params.Search = kleister.ToPtr(userPackListArgs.Search)
 	}
 
-	if minecraftBuildListArgs.Sort != "" {
-		val, err := kleister.ToListUserPacksParamsSort(minecraftBuildListArgs.Sort)
+	if userPackListArgs.Sort != "" {
+		val, err := kleister.ToListUserPacksParamsSort(userPackListArgs.Sort)
 
 		if err != nil && errors.Is(err, kleister.ErrListUserPacksParamsSort) {
 			return fmt.Errorf("invalid sort attribute")
@@ -119,8 +119,8 @@ func userPackListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		params.Sort = kleister.ToPtr(val)
 	}
 
-	if minecraftBuildListArgs.Order != "" {
-		val, err := kleister.ToListUserPacksParamsOrder(minecraftBuildListArgs.Order)
+	if userPackListArgs.Order != "" {
+		val, err := kleister.ToListUserPacksParamsOrder(userPackListArgs.Order)
 
 		if err != nil && errors.Is(err, kleister.ErrListUserPacksParamsOrder) {
 			return fmt.Errorf("invalid order attribute")
@@ -129,12 +129,12 @@ func userPackListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 		params.Order = kleister.ToPtr(val)
 	}
 
-	if minecraftBuildListArgs.Limit != 0 {
-		params.Limit = kleister.ToPtr(minecraftBuildListArgs.Limit)
+	if userPackListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(userPackListArgs.Limit)
 	}
 
-	if minecraftBuildListArgs.Offset != 0 {
-		params.Offset = kleister.ToPtr(minecraftBuildListArgs.Offset)
+	if userPackListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(userPackListArgs.Offset)
 	}
 
 	resp, err := client.ListUserPacksWithResponse(
@@ -179,11 +179,11 @@ func userPackListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 			}
 		}
 	case http.StatusForbidden:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON403.Message))
+		return errors.New(kleister.FromPtr(resp.JSON403.Message))
 	case http.StatusNotFound:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON404.Message))
+		return errors.New(kleister.FromPtr(resp.JSON404.Message))
 	case http.StatusInternalServerError:
-		return fmt.Errorf(kleister.FromPtr(resp.JSON500.Message))
+		return errors.New(kleister.FromPtr(resp.JSON500.Message))
 	default:
 		return fmt.Errorf("unknown api response")
 	}
