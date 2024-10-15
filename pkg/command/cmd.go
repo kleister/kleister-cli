@@ -11,13 +11,13 @@ import (
 )
 
 const (
-	defaultServerAddress = "http://localhost:8080/api/v1"
+	defaultServerAddress = "http://localhost:8080/api"
 )
 
 var (
 	rootCmd = &cobra.Command{
 		Use:           "kleister-cli",
-		Short:         "Manage mod packs for minecraft",
+		Short:         "Manage mod packs for Minecraft",
 		Version:       version.String,
 		SilenceErrors: false,
 		SilenceUsage:  true,

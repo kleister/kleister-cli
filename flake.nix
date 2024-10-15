@@ -53,6 +53,7 @@
               packages = with pkgs; [
                 bingo
                 gnumake
+                goreleaser
                 nixpkgs-fmt
               ];
 

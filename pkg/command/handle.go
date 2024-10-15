@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/kleister/kleister-go/kleister"
@@ -30,7 +31,17 @@ func Handle(ccmd *cobra.Command, args []string, fn HandleFunc) {
 		os.Exit(1)
 	}
 
-	server, err := url.Parse(viper.GetString("server.address"))
+	serverAddress := viper.GetString("server.address")
+
+	if strings.HasSuffix(serverAddress, "/") {
+		serverAddress = fmt.Sprintf("%sv1", serverAddress)
+	} else {
+		serverAddress = fmt.Sprintf("%s/v1", serverAddress)
+	}
+
+	server, err := url.Parse(
+		serverAddress,
+	)
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: Invalid server address, bad format?\n")

@@ -3,5 +3,5 @@
 
 coverage.out
 
-/bin
-/dist
+bin/
+dist/
