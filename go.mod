@@ -8,7 +8,7 @@ require (
 	github.com/drone/funcmap v0.0.0-20240227160611-7e19e9cd5a1c
 	github.com/joho/godotenv v1.5.1
 	github.com/kleister/kleister-go v1.5.0
-	github.com/spf13/cobra v1.9.0
+	github.com/spf13/cobra v1.9.1
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.10.0
 )
