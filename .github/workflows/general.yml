@@ -20,16 +20,13 @@ jobs:
       - name: Setup golang
         uses: actions/setup-go@v5
         with:
-          go-version: ^1.23.0
+          go-version-file: go.mod
 
       - name: Run vet
         run: make vet
 
       - name: Server golangci
         run: make golangci
-
-      - name: Run staticcheck
-        run: make staticcheck
 
       - name: Run lint
         run: make lint

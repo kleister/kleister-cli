@@ -2,6 +2,10 @@
 
 [![General Workflow](https://github.com/kleister/kleister-cli/actions/workflows/general.yml/badge.svg)](https://github.com/kleister/kleister-cli/actions/workflows/general.yml) [![Join the Matrix chat at https://matrix.to/#/#kleister:matrix.org](https://img.shields.io/badge/matrix-%23kleister-7bc9a4.svg)](https://matrix.to/#/#kleister:matrix.org) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/bf217141b736464297b3aa6001162cbd)](https://app.codacy.com/gh/kleister/kleister-cli/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Go Reference](https://pkg.go.dev/badge/github.com/kleister/kleister-cli.svg)](https://pkg.go.dev/github.com/kleister/kleister-cli) [![GitHub Repo](https://img.shields.io/badge/github-repo-yellowgreen)](https://github.com/kleister/kleister-cli)
 
+> [!CAUTION]
+> This project is in active development and does not provide any stable release
+> yet, you can expect breaking changes until our first real release!
+
 Within this repository we are building the command-line client to interact with
 the [Kleister API][api] server.
 

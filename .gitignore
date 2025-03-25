@@ -5,3 +5,5 @@ coverage.out
 
 bin/
 dist/
+
+.pre-commit-config.yaml
