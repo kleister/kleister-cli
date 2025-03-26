@@ -93,7 +93,7 @@ jobs:
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         run: |
           echo "${{ steps.meta.outputs.tags }}" | while read -r TAG; do
-            cosign sign --yes --key env://COSIGN_KEY "docker://${TAG}"
+            cosign sign --yes --key env://COSIGN_KEY ${TAG}
           done
 
   readme:
