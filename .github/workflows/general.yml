@@ -2,6 +2,7 @@
 name: general
 
 "on":
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -22,20 +23,29 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Setup task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run generate
+        run: task generate
+
       - name: Run vet
-        run: make vet
+        run: task vet
 
       - name: Server golangci
-        run: make golangci
+        run: task golangci
 
       - name: Run lint
-        run: make lint
-
-      - name: Run build
-        run: make build
+        run: task lint
 
       - name: Run test
-        run: make test
+        run: task test
+
+      - name: Run build
+        run: task build
 
       - name: Coverage report
         if: github.ref == 'refs/heads/master'

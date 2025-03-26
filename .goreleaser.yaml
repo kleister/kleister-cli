@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
+builds:
+  - id: cli
+    main: ./cmd/kleister-cli
+    binary: kleister-cli
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -extldflags "-static" -X "github.com/kleister/kleister-cli/pkg/version.String={{.Version}}" -X "github.com/kleister/kleister-cli/pkg/version.Revision={{.Commit}}" -X "github.com/kleister/kleister-cli/pkg/version.Date={{.Date}}"
+    tags:
+      - netgo
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - "386"
+      - arm64
+      - arm
+    ignore:
+      - goos: darwin
+        goarch: "386"
+      - goos: windows
+        goarch: arm
+
+archives:
+  - id: cli
+    ids:
+      - cli
+    name_template: "kleister-cli-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}"
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+    files:
+      - LICENSE
+      - CHANGELOG.md
+      - src: cmd/kleister-cli/README.md
+        dst: README.md
+
+nfpms:
+  - id: cli
+    ids:
+      - cli
+    package_name: kleister-cli
+    file_name_template: "kleister-cli-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ with .Arm }}v{{ . }}{{ end }}{{ with .Mips }}-{{ . }}{{ end }}"
+    vendor: Kleister
+    homepage: https://kleister.eu
+    maintainer: Thomas Boerger <thomas@webhippie.de>
+    description: |-
+      CLI to manage mod packs for Minecraft
+    license: Apache 2.0
+    formats:
+      - deb
+      - rpm
+
+signs:
+  - id: archives
+    signature: "${artifact}.asc"
+    cmd: gpg2
+    artifacts: archive
+    args:
+      - --batch
+      - --armor
+      - --local-user
+      - 7F494434AC882A11606CD1CDCBAFAA16B09C86A1
+      - --output
+      - ${signature}
+      - --detach-sign
+      - ${artifact}
+  - id: packages
+    signature: "${artifact}.asc"
+    cmd: gpg2
+    artifacts: package
+    args:
+      - --batch
+      - --armor
+      - --local-user
+      - 7F494434AC882A11606CD1CDCBAFAA16B09C86A1
+      - --output
+      - ${signature}
+      - --detach-sign
+      - ${artifact}
+
+snapshot:
+  version_template: testing
+
+changelog:
+  disable: true
+
+checksum:
+  disable: false
+  split: true

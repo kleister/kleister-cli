@@ -83,7 +83,7 @@
                 };
 
                 packages = with pkgs; [
-                  gnumake
+                  go-task
                   nixfmt-rfc-style
                 ];
 
