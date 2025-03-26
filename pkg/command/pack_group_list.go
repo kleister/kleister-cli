@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type modUserListBind struct {
+type packGroupListBind struct {
 	ID     string
 	Format string
 	Search string
@@ -21,119 +21,119 @@ type modUserListBind struct {
 	Offset int
 }
 
-// tmplModUserList represents a row within mod user listing.
-var tmplModUserList = "Slug: \x1b[33m{{ .User.Username }} \x1b[0m" + `
-ID: {{ .User.Id }}
-Email: {{ .User.Email }}
+// tmplPackGroupList represents a row within pack group listing.
+var tmplPackGroupList = "Slug: \x1b[33m{{ .Group.Slug }} \x1b[0m" + `
+ID: {{ .Group.Id }}
+Name: {{ .Group.Name }}
 Perm: {{ .Perm }}
 `
 
 var (
-	modUserListCmd = &cobra.Command{
+	packGroupListCmd = &cobra.Command{
 		Use:   "list",
-		Short: "List assigned users for a mod",
+		Short: "List assigned groups for a pack",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, modUserListAction)
+			Handle(ccmd, args, packGroupListAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	modUserListArgs = modUserListBind{}
+	packGroupListArgs = packGroupListBind{}
 )
 
 func init() {
-	modUserCmd.AddCommand(modUserListCmd)
+	packGroupCmd.AddCommand(packGroupListCmd)
 
-	modUserListCmd.Flags().StringVarP(
-		&modUserListArgs.ID,
+	packGroupListCmd.Flags().StringVarP(
+		&packGroupListArgs.ID,
 		"id",
 		"i",
 		"",
-		"Mod ID or slug",
+		"Pack ID or slug",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Format,
+	packGroupListCmd.Flags().StringVar(
+		&packGroupListArgs.Format,
 		"format",
-		tmplModUserList,
+		tmplPackGroupList,
 		"Custom output format",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Search,
+	packGroupListCmd.Flags().StringVar(
+		&packGroupListArgs.Search,
 		"search",
 		"",
 		"Search query",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Sort,
+	packGroupListCmd.Flags().StringVar(
+		&packGroupListArgs.Sort,
 		"sort",
 		"",
 		"Sorting column",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Order,
+	packGroupListCmd.Flags().StringVar(
+		&packGroupListArgs.Order,
 		"order",
 		"asc",
 		"Sorting order",
 	)
 
-	modUserListCmd.Flags().IntVar(
-		&modUserListArgs.Limit,
+	packGroupListCmd.Flags().IntVar(
+		&packGroupListArgs.Limit,
 		"limit",
 		0,
 		"Paging limit",
 	)
 
-	modUserListCmd.Flags().IntVar(
-		&modUserListArgs.Offset,
+	packGroupListCmd.Flags().IntVar(
+		&packGroupListArgs.Offset,
 		"offset",
 		0,
 		"Paging offset",
 	)
 }
 
-func modUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if modUserListArgs.ID == "" {
+func packGroupListAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if packGroupListArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	params := &kleister.ListModUsersParams{
+	params := &kleister.ListPackGroupsParams{
 		Limit:  kleister.ToPtr(10000),
 		Offset: kleister.ToPtr(0),
 	}
 
-	if modUserListArgs.Search != "" {
-		params.Search = kleister.ToPtr(modUserListArgs.Search)
+	if packGroupListArgs.Search != "" {
+		params.Search = kleister.ToPtr(packGroupListArgs.Search)
 	}
 
-	if modUserListArgs.Sort != "" {
-		params.Sort = kleister.ToPtr(modUserListArgs.Sort)
+	if packGroupListArgs.Sort != "" {
+		params.Sort = kleister.ToPtr(packGroupListArgs.Sort)
 	}
 
-	if modUserListArgs.Order != "" {
-		val, err := kleister.ToListModUsersParamsOrder(modUserListArgs.Order)
+	if packGroupListArgs.Order != "" {
+		val, err := kleister.ToListPackGroupsParamsOrder(packGroupListArgs.Order)
 
-		if err != nil && errors.Is(err, kleister.ErrListModUsersParamsOrder) {
+		if err != nil && errors.Is(err, kleister.ErrListPackGroupsParamsOrder) {
 			return fmt.Errorf("invalid order attribute")
 		}
 
 		params.Order = kleister.ToPtr(val)
 	}
 
-	if modUserListArgs.Limit != 0 {
-		params.Limit = kleister.ToPtr(modUserListArgs.Limit)
+	if packGroupListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(packGroupListArgs.Limit)
 	}
 
-	if modUserListArgs.Offset != 0 {
-		params.Offset = kleister.ToPtr(modUserListArgs.Offset)
+	if packGroupListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(packGroupListArgs.Offset)
 	}
 
-	resp, err := client.ListModUsersWithResponse(
+	resp, err := client.ListPackGroupsWithResponse(
 		ccmd.Context(),
-		modUserListArgs.ID,
+		packGroupListArgs.ID,
 		params,
 	)
 
@@ -148,7 +148,7 @@ func modUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 	).Funcs(
 		basicFuncMap,
 	).Parse(
-		fmt.Sprintln(modUserListArgs.Format),
+		fmt.Sprintln(packGroupListArgs.Format),
 	)
 
 	if err != nil {
@@ -157,7 +157,7 @@ func modUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := resp.JSON200.Users
+		records := resp.JSON200.Groups
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

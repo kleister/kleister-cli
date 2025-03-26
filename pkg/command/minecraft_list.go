@@ -87,7 +87,7 @@ func minecraftListAction(ccmd *cobra.Command, _ []string, client *Client) error 
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := kleister.FromPtr(resp.JSON200.Versions)
+		records := resp.JSON200.Versions
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

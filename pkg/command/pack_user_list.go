@@ -110,13 +110,7 @@ func packUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 	}
 
 	if packUserListArgs.Sort != "" {
-		val, err := kleister.ToListPackUsersParamsSort(packUserListArgs.Sort)
-
-		if err != nil && errors.Is(err, kleister.ErrListPackUsersParamsSort) {
-			return fmt.Errorf("invalid sort attribute")
-		}
-
-		params.Sort = kleister.ToPtr(val)
+		params.Sort = kleister.ToPtr(packUserListArgs.Sort)
 	}
 
 	if packUserListArgs.Order != "" {
@@ -163,7 +157,7 @@ func packUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := kleister.FromPtr(resp.JSON200.Users)
+		records := resp.JSON200.Users
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

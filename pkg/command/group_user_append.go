@@ -10,71 +10,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type packUserPermitBind struct {
+type groupUserAppendBind struct {
 	ID   string
 	User string
 	Perm string
 }
 
 var (
-	packUserPermitCmd = &cobra.Command{
-		Use:   "permit",
-		Short: "Permit user for pack",
+	groupUserAppendCmd = &cobra.Command{
+		Use:   "append",
+		Short: "Append user to group",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, packUserPermitAction)
+			Handle(ccmd, args, groupUserAppendAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	packUserPermitArgs = packUserPermitBind{}
+	groupUserAppendArgs = groupUserAppendBind{}
 )
 
 func init() {
-	packUserCmd.AddCommand(packUserPermitCmd)
+	groupUserCmd.AddCommand(groupUserAppendCmd)
 
-	packUserPermitCmd.Flags().StringVarP(
-		&packUserPermitArgs.ID,
+	groupUserAppendCmd.Flags().StringVarP(
+		&groupUserAppendArgs.ID,
 		"id",
 		"i",
 		"",
-		"Pack ID or slug",
+		"Group ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.User,
+	groupUserAppendCmd.Flags().StringVar(
+		&groupUserAppendArgs.User,
 		"user",
 		"",
 		"User ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.Perm,
+	groupUserAppendCmd.Flags().StringVar(
+		&groupUserAppendArgs.Perm,
 		"perm",
 		"",
 		"Role for the user",
 	)
 }
 
-func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if packUserPermitArgs.ID == "" {
+func groupUserAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if groupUserAppendArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if packUserPermitArgs.User == "" {
+	if groupUserAppendArgs.User == "" {
 		return fmt.Errorf("you must provide a user ID or a slug")
 	}
 
-	body := kleister.PermitPackUserJSONRequestBody{
-		User: packUserPermitArgs.User,
+	body := kleister.AttachGroupToUserJSONRequestBody{
+		User: groupUserAppendArgs.User,
 	}
 
-	if packUserPermitArgs.Perm != "" {
-		body.Perm = packUserPermitArgs.Perm
+	if groupUserAppendArgs.Perm != "" {
+		body.Perm = groupUserAppendArgs.Perm
 	}
 
-	resp, err := client.PermitPackUserWithResponse(
+	resp, err := client.AttachGroupToUserWithResponse(
 		ccmd.Context(),
-		packUserPermitArgs.ID,
+		groupUserAppendArgs.ID,
 		body,
 	)
 

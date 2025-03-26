@@ -109,13 +109,7 @@ func minecraftBuildListAction(ccmd *cobra.Command, _ []string, client *Client) e
 	}
 
 	if minecraftBuildListArgs.Sort != "" {
-		val, err := kleister.ToListMinecraftBuildsParamsSort(minecraftBuildListArgs.Sort)
-
-		if err != nil && errors.Is(err, kleister.ErrListMinecraftBuildsParamsSort) {
-			return fmt.Errorf("invalid sort attribute")
-		}
-
-		params.Sort = kleister.ToPtr(val)
+		params.Sort = kleister.ToPtr(minecraftBuildListArgs.Sort)
 	}
 
 	if minecraftBuildListArgs.Order != "" {
@@ -162,7 +156,7 @@ func minecraftBuildListAction(ccmd *cobra.Command, _ []string, client *Client) e
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := kleister.FromPtr(resp.JSON200.Builds)
+		records := resp.JSON200.Builds
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

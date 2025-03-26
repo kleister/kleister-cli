@@ -69,13 +69,7 @@ func packUserAppendAction(ccmd *cobra.Command, _ []string, client *Client) error
 	}
 
 	if packUserAppendArgs.Perm != "" {
-		val, err := kleister.ToPackUserParamsPerm(packUserAppendArgs.Perm)
-
-		if err != nil && errors.Is(err, kleister.ErrPackUserParamsPerm) {
-			return fmt.Errorf("invalid perm attribute")
-		}
-
-		body.Perm = kleister.ToPtr(val)
+		body.Perm = packUserAppendArgs.Perm
 	}
 
 	resp, err := client.AttachPackToUserWithResponse(

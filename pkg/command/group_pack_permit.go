@@ -10,71 +10,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type packUserPermitBind struct {
+type groupPackPermitBind struct {
 	ID   string
-	User string
+	Pack string
 	Perm string
 }
 
 var (
-	packUserPermitCmd = &cobra.Command{
+	groupPackPermitCmd = &cobra.Command{
 		Use:   "permit",
-		Short: "Permit user for pack",
+		Short: "Permit pack for group",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, packUserPermitAction)
+			Handle(ccmd, args, groupPackPermitAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	packUserPermitArgs = packUserPermitBind{}
+	groupPackPermitArgs = groupPackPermitBind{}
 )
 
 func init() {
-	packUserCmd.AddCommand(packUserPermitCmd)
+	groupPackCmd.AddCommand(groupPackPermitCmd)
 
-	packUserPermitCmd.Flags().StringVarP(
-		&packUserPermitArgs.ID,
+	groupPackPermitCmd.Flags().StringVarP(
+		&groupPackPermitArgs.ID,
 		"id",
 		"i",
+		"",
+		"Group ID or slug",
+	)
+
+	groupPackPermitCmd.Flags().StringVar(
+		&groupPackPermitArgs.Pack,
+		"pack",
 		"",
 		"Pack ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.User,
-		"user",
-		"",
-		"User ID or slug",
-	)
-
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.Perm,
+	groupPackPermitCmd.Flags().StringVar(
+		&groupPackPermitArgs.Perm,
 		"perm",
 		"",
-		"Role for the user",
+		"Role for the pack",
 	)
 }
 
-func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if packUserPermitArgs.ID == "" {
+func groupPackPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if groupPackPermitArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if packUserPermitArgs.User == "" {
-		return fmt.Errorf("you must provide a user ID or a slug")
+	if groupPackPermitArgs.Pack == "" {
+		return fmt.Errorf("you must provide a pack ID or a slug")
 	}
 
-	body := kleister.PermitPackUserJSONRequestBody{
-		User: packUserPermitArgs.User,
+	body := kleister.PermitGroupPackJSONRequestBody{
+		Pack: groupPackPermitArgs.Pack,
 	}
 
-	if packUserPermitArgs.Perm != "" {
-		body.Perm = packUserPermitArgs.Perm
+	if groupPackPermitArgs.Perm != "" {
+		body.Perm = groupPackPermitArgs.Perm
 	}
 
-	resp, err := client.PermitPackUserWithResponse(
+	resp, err := client.PermitGroupPackWithResponse(
 		ccmd.Context(),
-		packUserPermitArgs.ID,
+		groupPackPermitArgs.ID,
 		body,
 	)
 

@@ -10,72 +10,58 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type packUserPermitBind struct {
+type groupUserRemoveBind struct {
 	ID   string
 	User string
-	Perm string
 }
 
 var (
-	packUserPermitCmd = &cobra.Command{
-		Use:   "permit",
-		Short: "Permit user for pack",
+	groupUserRemoveCmd = &cobra.Command{
+		Use:   "remove",
+		Short: "Remove user from group",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, packUserPermitAction)
+			Handle(ccmd, args, groupUserRemoveAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	packUserPermitArgs = packUserPermitBind{}
+	groupUserRemoveArgs = groupUserRemoveBind{}
 )
 
 func init() {
-	packUserCmd.AddCommand(packUserPermitCmd)
+	groupUserCmd.AddCommand(groupUserRemoveCmd)
 
-	packUserPermitCmd.Flags().StringVarP(
-		&packUserPermitArgs.ID,
+	groupUserRemoveCmd.Flags().StringVarP(
+		&groupUserRemoveArgs.ID,
 		"id",
 		"i",
 		"",
-		"Pack ID or slug",
+		"Group ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.User,
+	groupUserRemoveCmd.Flags().StringVar(
+		&groupUserRemoveArgs.User,
 		"user",
 		"",
 		"User ID or slug",
 	)
-
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.Perm,
-		"perm",
-		"",
-		"Role for the user",
-	)
 }
 
-func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if packUserPermitArgs.ID == "" {
+func groupUserRemoveAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if groupUserRemoveArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if packUserPermitArgs.User == "" {
+	if groupUserRemoveArgs.User == "" {
 		return fmt.Errorf("you must provide a user ID or a slug")
 	}
 
-	body := kleister.PermitPackUserJSONRequestBody{
-		User: packUserPermitArgs.User,
-	}
-
-	if packUserPermitArgs.Perm != "" {
-		body.Perm = packUserPermitArgs.Perm
-	}
-
-	resp, err := client.PermitPackUserWithResponse(
+	resp, err := client.DeleteGroupFromUserWithResponse(
 		ccmd.Context(),
-		packUserPermitArgs.ID,
-		body,
+		groupUserRemoveArgs.ID,
+		kleister.DeleteGroupFromUserJSONRequestBody{
+			User: groupUserRemoveArgs.User,
+		},
 	)
 
 	if err != nil {
@@ -85,8 +71,6 @@ func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error
 	switch resp.StatusCode() {
 	case http.StatusOK:
 		fmt.Fprintln(os.Stderr, kleister.FromPtr(resp.JSON200.Message))
-	case http.StatusUnprocessableEntity:
-		return validationError(resp.JSON422)
 	case http.StatusPreconditionFailed:
 		return errors.New(kleister.FromPtr(resp.JSON412.Message))
 	case http.StatusForbidden:
