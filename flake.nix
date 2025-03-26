@@ -84,6 +84,7 @@
 
                 packages = with pkgs; [
                   go-task
+                  goreleaser
                   nixfmt-rfc-style
                 ];
 
