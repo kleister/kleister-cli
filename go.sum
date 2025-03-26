@@ -217,6 +217,8 @@ github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zt
 github.com/klauspost/compress v1.18.0/go.mod h1:2Pp+KzxcywXVXMr50+X0Q/Lsb43OQHYWRCY2AiWywWQ=
 github.com/kleister/kleister-go v1.6.0 h1:Gvvf+93qxZWAnDERtxYsAGJc7iuZhhV33qZYZDVM4Cw=
 github.com/kleister/kleister-go v1.6.0/go.mod h1:VIn+4+RWU2riJRbyF5BWmYp0OLkg4K84Ct0HnAAzvdU=
+github.com/kleister/kleister-go v1.7.0 h1:3LKdFjnPB8ki3MmNioWQsS5NPydIQ1qyBK+15vPXvaM=
+github.com/kleister/kleister-go v1.7.0/go.mod h1:VIn+4+RWU2riJRbyF5BWmYp0OLkg4K84Ct0HnAAzvdU=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
