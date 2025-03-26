@@ -11,13 +11,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// tmplUserList represents a row within user listing.
-var tmplUserList = "Username: \x1b[33m{{ .Username }} \x1b[0m" + `
+// tmplGroupList represents a row within user listing.
+var tmplGroupList = "Slug: \x1b[33m{{ .Slug }} \x1b[0m" + `
 ID: {{ .Id }}
-Email: {{ .Email }}
+Name: {{ .Name }}
 `
 
-type userListBind struct {
+type groupListBind struct {
 	Format string
 	Search string
 	Sort   string
@@ -27,97 +27,97 @@ type userListBind struct {
 }
 
 var (
-	userListCmd = &cobra.Command{
+	groupListCmd = &cobra.Command{
 		Use:   "list",
-		Short: "List all users",
+		Short: "List all groups",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, userListAction)
+			Handle(ccmd, args, groupListAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	userListArgs = userListBind{}
+	groupListArgs = groupListBind{}
 )
 
 func init() {
-	userCmd.AddCommand(userListCmd)
+	groupCmd.AddCommand(groupListCmd)
 
-	userListCmd.Flags().StringVar(
-		&userListArgs.Format,
+	groupListCmd.Flags().StringVar(
+		&groupListArgs.Format,
 		"format",
-		tmplUserList,
+		tmplGroupList,
 		"Custom output format",
 	)
 
-	userListCmd.Flags().StringVar(
-		&userListArgs.Search,
+	groupListCmd.Flags().StringVar(
+		&groupListArgs.Search,
 		"search",
 		"",
 		"Search query",
 	)
 
-	userListCmd.Flags().StringVar(
-		&userListArgs.Sort,
+	groupListCmd.Flags().StringVar(
+		&groupListArgs.Sort,
 		"sort",
 		"",
 		"Sorting column",
 	)
 
-	userListCmd.Flags().StringVar(
-		&userListArgs.Order,
+	groupListCmd.Flags().StringVar(
+		&groupListArgs.Order,
 		"order",
 		"asc",
 		"Sorting order",
 	)
 
-	userListCmd.Flags().IntVar(
-		&userListArgs.Limit,
+	groupListCmd.Flags().IntVar(
+		&groupListArgs.Limit,
 		"limit",
 		0,
 		"Paging limit",
 	)
 
-	userListCmd.Flags().IntVar(
-		&userListArgs.Offset,
+	groupListCmd.Flags().IntVar(
+		&groupListArgs.Offset,
 		"offset",
 		0,
 		"Paging offset",
 	)
 }
 
-func userListAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	params := &kleister.ListUsersParams{
+func groupListAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	params := &kleister.ListGroupsParams{
 		Limit:  kleister.ToPtr(10000),
 		Offset: kleister.ToPtr(0),
 	}
 
-	if userListArgs.Search != "" {
-		params.Search = kleister.ToPtr(userListArgs.Search)
+	if groupListArgs.Search != "" {
+		params.Search = kleister.ToPtr(groupListArgs.Search)
 	}
 
-	if userListArgs.Sort != "" {
-		params.Sort = kleister.ToPtr(userListArgs.Sort)
+	if groupListArgs.Sort != "" {
+		params.Sort = kleister.ToPtr(groupListArgs.Sort)
 	}
 
-	if userListArgs.Order != "" {
-		val, err := kleister.ToListUsersParamsOrder(userListArgs.Order)
+	if groupListArgs.Order != "" {
+		val, err := kleister.ToListGroupsParamsOrder(groupListArgs.Order)
 
-		if err != nil && errors.Is(err, kleister.ErrListUsersParamsOrder) {
+		if err != nil && errors.Is(err, kleister.ErrListGroupsParamsOrder) {
 			return fmt.Errorf("invalid order attribute")
 		}
 
 		params.Order = kleister.ToPtr(val)
 	}
 
-	if userListArgs.Limit != 0 {
-		params.Limit = kleister.ToPtr(userListArgs.Limit)
+	if groupListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(groupListArgs.Limit)
 	}
 
-	if userListArgs.Offset != 0 {
-		params.Offset = kleister.ToPtr(userListArgs.Offset)
+	if groupListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(groupListArgs.Offset)
 	}
 
-	resp, err := client.ListUsersWithResponse(
+	resp, err := client.ListGroupsWithResponse(
 		ccmd.Context(),
 		params,
 	)
@@ -133,7 +133,7 @@ func userListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 	).Funcs(
 		basicFuncMap,
 	).Parse(
-		fmt.Sprintln(userListArgs.Format),
+		fmt.Sprintln(groupListArgs.Format),
 	)
 
 	if err != nil {
@@ -142,7 +142,7 @@ func userListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := resp.JSON200.Users
+		records := resp.JSON200.Groups
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

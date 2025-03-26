@@ -10,72 +10,58 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type userModPermitBind struct {
-	ID   string
-	Mod  string
-	Perm string
+type groupModRemoveBind struct {
+	ID  string
+	Mod string
 }
 
 var (
-	userModPermitCmd = &cobra.Command{
-		Use:   "permit",
-		Short: "Permit mod for user",
+	groupModRemoveCmd = &cobra.Command{
+		Use:   "remove",
+		Short: "Remove mod from group",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, userModPermitAction)
+			Handle(ccmd, args, groupModRemoveAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	userModPermitArgs = userModPermitBind{}
+	groupModRemoveArgs = groupModRemoveBind{}
 )
 
 func init() {
-	userModCmd.AddCommand(userModPermitCmd)
+	groupModCmd.AddCommand(groupModRemoveCmd)
 
-	userModPermitCmd.Flags().StringVarP(
-		&userModPermitArgs.ID,
+	groupModRemoveCmd.Flags().StringVarP(
+		&groupModRemoveArgs.ID,
 		"id",
 		"i",
 		"",
-		"User ID or slug",
+		"Group ID or slug",
 	)
 
-	userModPermitCmd.Flags().StringVar(
-		&userModPermitArgs.Mod,
+	groupModRemoveCmd.Flags().StringVar(
+		&groupModRemoveArgs.Mod,
 		"mod",
 		"",
 		"Mod ID or slug",
 	)
-
-	userModPermitCmd.Flags().StringVar(
-		&userModPermitArgs.Perm,
-		"perm",
-		"",
-		"Role for the mod",
-	)
 }
 
-func userModPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if userModPermitArgs.ID == "" {
+func groupModRemoveAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if groupModRemoveArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if userModPermitArgs.Mod == "" {
+	if groupModRemoveArgs.Mod == "" {
 		return fmt.Errorf("you must provide a mod ID or a slug")
 	}
 
-	body := kleister.PermitUserModJSONRequestBody{
-		Mod: userModPermitArgs.Mod,
-	}
-
-	if userModPermitArgs.Perm != "" {
-		body.Perm = userModPermitArgs.Perm
-	}
-
-	resp, err := client.PermitUserModWithResponse(
+	resp, err := client.DeleteGroupFromModWithResponse(
 		ccmd.Context(),
-		userModPermitArgs.ID,
-		body,
+		groupModRemoveArgs.ID,
+		kleister.DeleteGroupFromModJSONRequestBody{
+			Mod: groupModRemoveArgs.Mod,
+		},
 	)
 
 	if err != nil {
@@ -85,8 +71,6 @@ func userModPermitAction(ccmd *cobra.Command, _ []string, client *Client) error 
 	switch resp.StatusCode() {
 	case http.StatusOK:
 		fmt.Fprintln(os.Stderr, kleister.FromPtr(resp.JSON200.Message))
-	case http.StatusUnprocessableEntity:
-		return validationError(resp.JSON422)
 	case http.StatusPreconditionFailed:
 		return errors.New(kleister.FromPtr(resp.JSON412.Message))
 	case http.StatusForbidden:

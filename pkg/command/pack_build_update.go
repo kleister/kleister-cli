@@ -154,27 +154,27 @@ func packBuildUpdateAction(ccmd *cobra.Command, _ []string, client *Client) erro
 	}
 
 	if val := packBuildUpdateArgs.Minecraft; val != "" {
-		body.MinecraftId = kleister.ToPtr(val)
+		body.MinecraftID = kleister.ToPtr(val)
 		changed = true
 	}
 
 	if val := packBuildUpdateArgs.Forge; val != "" {
-		body.ForgeId = kleister.ToPtr(val)
+		body.ForgeID = kleister.ToPtr(val)
 		changed = true
 	}
 
 	if val := packBuildUpdateArgs.Neoforge; val != "" {
-		body.NeoforgeId = kleister.ToPtr(val)
+		body.NeoforgeID = kleister.ToPtr(val)
 		changed = true
 	}
 
 	if val := packBuildUpdateArgs.Quilt; val != "" {
-		body.QuiltId = kleister.ToPtr(val)
+		body.QuiltID = kleister.ToPtr(val)
 		changed = true
 	}
 
 	if val := packBuildUpdateArgs.Fabric; val != "" {
-		body.FabricId = kleister.ToPtr(val)
+		body.FabricID = kleister.ToPtr(val)
 		changed = true
 	}
 

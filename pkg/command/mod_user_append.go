@@ -69,13 +69,7 @@ func modUserAppendAction(ccmd *cobra.Command, _ []string, client *Client) error 
 	}
 
 	if modUserAppendArgs.Perm != "" {
-		val, err := kleister.ToModUserParamsPerm(modUserAppendArgs.Perm)
-
-		if err != nil && errors.Is(err, kleister.ErrModUserParamsPerm) {
-			return fmt.Errorf("invalid perm attribute")
-		}
-
-		body.Perm = kleister.ToPtr(val)
+		body.Perm = modUserAppendArgs.Perm
 	}
 
 	resp, err := client.AttachModToUserWithResponse(

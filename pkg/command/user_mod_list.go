@@ -110,13 +110,7 @@ func userModListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 	}
 
 	if userModListArgs.Sort != "" {
-		val, err := kleister.ToListUserModsParamsSort(userModListArgs.Sort)
-
-		if err != nil && errors.Is(err, kleister.ErrListUserModsParamsSort) {
-			return fmt.Errorf("invalid sort attribute")
-		}
-
-		params.Sort = kleister.ToPtr(val)
+		params.Sort = kleister.ToPtr(userModListArgs.Sort)
 	}
 
 	if userModListArgs.Order != "" {
@@ -163,7 +157,7 @@ func userModListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 
 	switch resp.StatusCode() {
 	case http.StatusOK:
-		records := kleister.FromPtr(resp.JSON200.Mods)
+		records := resp.JSON200.Mods
 
 		if len(records) == 0 {
 			fmt.Fprintln(os.Stderr, "Empty result")

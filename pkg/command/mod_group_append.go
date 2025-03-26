@@ -10,71 +10,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type packUserPermitBind struct {
-	ID   string
-	User string
-	Perm string
+type modGroupAppendBind struct {
+	ID    string
+	Group string
+	Perm  string
 }
 
 var (
-	packUserPermitCmd = &cobra.Command{
-		Use:   "permit",
-		Short: "Permit user for pack",
+	modGroupAppendCmd = &cobra.Command{
+		Use:   "append",
+		Short: "Append group to mod",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, packUserPermitAction)
+			Handle(ccmd, args, modGroupAppendAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	packUserPermitArgs = packUserPermitBind{}
+	modGroupAppendArgs = modGroupAppendBind{}
 )
 
 func init() {
-	packUserCmd.AddCommand(packUserPermitCmd)
+	modGroupCmd.AddCommand(modGroupAppendCmd)
 
-	packUserPermitCmd.Flags().StringVarP(
-		&packUserPermitArgs.ID,
+	modGroupAppendCmd.Flags().StringVarP(
+		&modGroupAppendArgs.ID,
 		"id",
 		"i",
 		"",
-		"Pack ID or slug",
+		"Mod ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.User,
-		"user",
+	modGroupAppendCmd.Flags().StringVar(
+		&modGroupAppendArgs.Group,
+		"group",
 		"",
-		"User ID or slug",
+		"Group ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.Perm,
+	modGroupAppendCmd.Flags().StringVar(
+		&modGroupAppendArgs.Perm,
 		"perm",
 		"",
-		"Role for the user",
+		"Role for the group",
 	)
 }
 
-func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if packUserPermitArgs.ID == "" {
+func modGroupAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if modGroupAppendArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if packUserPermitArgs.User == "" {
-		return fmt.Errorf("you must provide a user ID or a slug")
+	if modGroupAppendArgs.Group == "" {
+		return fmt.Errorf("you must provide a group ID or a slug")
 	}
 
-	body := kleister.PermitPackUserJSONRequestBody{
-		User: packUserPermitArgs.User,
+	body := kleister.AttachModToGroupJSONRequestBody{
+		Group: modGroupAppendArgs.Group,
 	}
 
-	if packUserPermitArgs.Perm != "" {
-		body.Perm = packUserPermitArgs.Perm
+	if modGroupAppendArgs.Perm != "" {
+		body.Perm = modGroupAppendArgs.Perm
 	}
 
-	resp, err := client.PermitPackUserWithResponse(
+	resp, err := client.AttachModToGroupWithResponse(
 		ccmd.Context(),
-		packUserPermitArgs.ID,
+		modGroupAppendArgs.ID,
 		body,
 	)
 

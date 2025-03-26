@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type modUserListBind struct {
+type groupUserListBind struct {
 	ID     string
 	Format string
 	Search string
@@ -21,119 +21,119 @@ type modUserListBind struct {
 	Offset int
 }
 
-// tmplModUserList represents a row within mod user listing.
-var tmplModUserList = "Slug: \x1b[33m{{ .User.Username }} \x1b[0m" + `
+// tmplGroupUserList represents a row within group user listing.
+var tmplGroupUserList = "Slug: \x1b[33m{{ .User.Username }} \x1b[0m" + `
 ID: {{ .User.Id }}
 Email: {{ .User.Email }}
 Perm: {{ .Perm }}
 `
 
 var (
-	modUserListCmd = &cobra.Command{
+	groupUserListCmd = &cobra.Command{
 		Use:   "list",
-		Short: "List assigned users for a mod",
+		Short: "List assigned users for a group",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, modUserListAction)
+			Handle(ccmd, args, groupUserListAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	modUserListArgs = modUserListBind{}
+	groupUserListArgs = groupUserListBind{}
 )
 
 func init() {
-	modUserCmd.AddCommand(modUserListCmd)
+	groupUserCmd.AddCommand(groupUserListCmd)
 
-	modUserListCmd.Flags().StringVarP(
-		&modUserListArgs.ID,
+	groupUserListCmd.Flags().StringVarP(
+		&groupUserListArgs.ID,
 		"id",
 		"i",
 		"",
-		"Mod ID or slug",
+		"Group ID or slug",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Format,
+	groupUserListCmd.Flags().StringVar(
+		&groupUserListArgs.Format,
 		"format",
-		tmplModUserList,
+		tmplGroupUserList,
 		"Custom output format",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Search,
+	groupUserListCmd.Flags().StringVar(
+		&groupUserListArgs.Search,
 		"search",
 		"",
 		"Search query",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Sort,
+	groupUserListCmd.Flags().StringVar(
+		&groupUserListArgs.Sort,
 		"sort",
 		"",
 		"Sorting column",
 	)
 
-	modUserListCmd.Flags().StringVar(
-		&modUserListArgs.Order,
+	groupUserListCmd.Flags().StringVar(
+		&groupUserListArgs.Order,
 		"order",
 		"asc",
 		"Sorting order",
 	)
 
-	modUserListCmd.Flags().IntVar(
-		&modUserListArgs.Limit,
+	groupUserListCmd.Flags().IntVar(
+		&groupUserListArgs.Limit,
 		"limit",
 		0,
 		"Paging limit",
 	)
 
-	modUserListCmd.Flags().IntVar(
-		&modUserListArgs.Offset,
+	groupUserListCmd.Flags().IntVar(
+		&groupUserListArgs.Offset,
 		"offset",
 		0,
 		"Paging offset",
 	)
 }
 
-func modUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if modUserListArgs.ID == "" {
+func groupUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if groupUserListArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	params := &kleister.ListModUsersParams{
+	params := &kleister.ListGroupUsersParams{
 		Limit:  kleister.ToPtr(10000),
 		Offset: kleister.ToPtr(0),
 	}
 
-	if modUserListArgs.Search != "" {
-		params.Search = kleister.ToPtr(modUserListArgs.Search)
+	if groupUserListArgs.Search != "" {
+		params.Search = kleister.ToPtr(groupUserListArgs.Search)
 	}
 
-	if modUserListArgs.Sort != "" {
-		params.Sort = kleister.ToPtr(modUserListArgs.Sort)
+	if groupUserListArgs.Sort != "" {
+		params.Sort = kleister.ToPtr(groupUserListArgs.Sort)
 	}
 
-	if modUserListArgs.Order != "" {
-		val, err := kleister.ToListModUsersParamsOrder(modUserListArgs.Order)
+	if groupUserListArgs.Order != "" {
+		val, err := kleister.ToListGroupUsersParamsOrder(groupUserListArgs.Order)
 
-		if err != nil && errors.Is(err, kleister.ErrListModUsersParamsOrder) {
+		if err != nil && errors.Is(err, kleister.ErrListGroupUsersParamsOrder) {
 			return fmt.Errorf("invalid order attribute")
 		}
 
 		params.Order = kleister.ToPtr(val)
 	}
 
-	if modUserListArgs.Limit != 0 {
-		params.Limit = kleister.ToPtr(modUserListArgs.Limit)
+	if groupUserListArgs.Limit != 0 {
+		params.Limit = kleister.ToPtr(groupUserListArgs.Limit)
 	}
 
-	if modUserListArgs.Offset != 0 {
-		params.Offset = kleister.ToPtr(modUserListArgs.Offset)
+	if groupUserListArgs.Offset != 0 {
+		params.Offset = kleister.ToPtr(groupUserListArgs.Offset)
 	}
 
-	resp, err := client.ListModUsersWithResponse(
+	resp, err := client.ListGroupUsersWithResponse(
 		ccmd.Context(),
-		modUserListArgs.ID,
+		groupUserListArgs.ID,
 		params,
 	)
 
@@ -148,7 +148,7 @@ func modUserListAction(ccmd *cobra.Command, _ []string, client *Client) error {
 	).Funcs(
 		basicFuncMap,
 	).Parse(
-		fmt.Sprintln(modUserListArgs.Format),
+		fmt.Sprintln(groupUserListArgs.Format),
 	)
 
 	if err != nil {

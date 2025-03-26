@@ -10,71 +10,71 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type packUserPermitBind struct {
-	ID   string
-	User string
-	Perm string
+type packGroupAppendBind struct {
+	ID    string
+	Group string
+	Perm  string
 }
 
 var (
-	packUserPermitCmd = &cobra.Command{
-		Use:   "permit",
-		Short: "Permit user for pack",
+	packGroupAppendCmd = &cobra.Command{
+		Use:   "append",
+		Short: "Append group to pack",
 		Run: func(ccmd *cobra.Command, args []string) {
-			Handle(ccmd, args, packUserPermitAction)
+			Handle(ccmd, args, packGroupAppendAction)
 		},
 		Args: cobra.NoArgs,
 	}
 
-	packUserPermitArgs = packUserPermitBind{}
+	packGroupAppendArgs = packGroupAppendBind{}
 )
 
 func init() {
-	packUserCmd.AddCommand(packUserPermitCmd)
+	packGroupCmd.AddCommand(packGroupAppendCmd)
 
-	packUserPermitCmd.Flags().StringVarP(
-		&packUserPermitArgs.ID,
+	packGroupAppendCmd.Flags().StringVarP(
+		&packGroupAppendArgs.ID,
 		"id",
 		"i",
 		"",
 		"Pack ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.User,
-		"user",
+	packGroupAppendCmd.Flags().StringVar(
+		&packGroupAppendArgs.Group,
+		"group",
 		"",
-		"User ID or slug",
+		"Group ID or slug",
 	)
 
-	packUserPermitCmd.Flags().StringVar(
-		&packUserPermitArgs.Perm,
+	packGroupAppendCmd.Flags().StringVar(
+		&packGroupAppendArgs.Perm,
 		"perm",
 		"",
-		"Role for the user",
+		"Role for the group",
 	)
 }
 
-func packUserPermitAction(ccmd *cobra.Command, _ []string, client *Client) error {
-	if packUserPermitArgs.ID == "" {
+func packGroupAppendAction(ccmd *cobra.Command, _ []string, client *Client) error {
+	if packGroupAppendArgs.ID == "" {
 		return fmt.Errorf("you must provide an ID or a slug")
 	}
 
-	if packUserPermitArgs.User == "" {
-		return fmt.Errorf("you must provide a user ID or a slug")
+	if packGroupAppendArgs.Group == "" {
+		return fmt.Errorf("you must provide a group ID or a slug")
 	}
 
-	body := kleister.PermitPackUserJSONRequestBody{
-		User: packUserPermitArgs.User,
+	body := kleister.AttachPackToGroupJSONRequestBody{
+		Group: packGroupAppendArgs.Group,
 	}
 
-	if packUserPermitArgs.Perm != "" {
-		body.Perm = packUserPermitArgs.Perm
+	if packGroupAppendArgs.Perm != "" {
+		body.Perm = packGroupAppendArgs.Perm
 	}
 
-	resp, err := client.PermitPackUserWithResponse(
+	resp, err := client.AttachPackToGroupWithResponse(
 		ccmd.Context(),
-		packUserPermitArgs.ID,
+		packGroupAppendArgs.ID,
 		body,
 	)
 
