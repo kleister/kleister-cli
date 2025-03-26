@@ -1,7 +1,7 @@
 ---
 repository:
   name: kleister-cli
-  description: "Kleister: CLI Client"
+  description: Commandline client for Kleister
   homepage: https://kleister.eu
   topics: kleister, minecraft, cli, client, golang, go
 
