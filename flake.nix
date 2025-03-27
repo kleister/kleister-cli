@@ -55,8 +55,6 @@
           devenv = {
             shells = {
               default = {
-                name = "kleister-cli";
-
                 git-hooks = {
                   hooks = {
                     nixfmt-rfc-style = {
