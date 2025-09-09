@@ -10,9 +10,7 @@
       ],
       "ignoreDeps": [
         "github.com/golangci/golangci-lint/v2/cmd/golangci-lint",
-        "github.com/mgechev/revive",
-        "github.com/golang/mock/mockgen",
-        "github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen"
+        "github.com/mgechev/revive"
       ]
     }
   ]
