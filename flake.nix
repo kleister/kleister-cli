@@ -57,7 +57,7 @@
               default = {
                 git-hooks = {
                   hooks = {
-                    nixfmt-rfc-style = {
+                    nixfmt = {
                       enable = true;
                     };
 
@@ -76,14 +76,14 @@
                 languages = {
                   go = {
                     enable = true;
-                    package = pkgs.go_1_24;
+                    package = pkgs.go_1_25;
                   };
                 };
 
                 packages = with pkgs; [
                   go-task
                   goreleaser
-                  nixfmt-rfc-style
+                  nixfmt
                 ];
 
                 env = {
