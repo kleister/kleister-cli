@@ -10,7 +10,7 @@ tool (
 require (
 	github.com/drone/funcmap v0.0.0-20240227160611-7e19e9cd5a1c
 	github.com/joho/godotenv v1.5.1
-	github.com/kleister/kleister-go v1.17.0
+	github.com/kleister/kleister-go v1.18.0
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
@@ -152,7 +152,7 @@ require (
 	github.com/nishanths/exhaustive v0.12.0 // indirect
 	github.com/nishanths/predeclared v0.2.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.0 // indirect
-	github.com/oapi-codegen/runtime v1.1.2 // indirect
+	github.com/oapi-codegen/runtime v1.2.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.20.5 // indirect
