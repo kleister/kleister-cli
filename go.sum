@@ -258,8 +258,8 @@ github.com/kkHAIKE/contextcheck v1.1.6 h1:7HIyRcnyzxL9Lz06NGhiKvenXq7Zw6Q0UQu/tt
 github.com/kkHAIKE/contextcheck v1.1.6/go.mod h1:3dDbMRNBFaq8HFXWC1JyvDSPm43CmE6IuHam8Wr0rkg=
 github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zttxdo=
 github.com/klauspost/compress v1.18.0/go.mod h1:2Pp+KzxcywXVXMr50+X0Q/Lsb43OQHYWRCY2AiWywWQ=
-github.com/kleister/kleister-go v1.21.0 h1:OhlW9eM60hoa9qjPu8CVgWWDGebWLocc79uYKZZgUuM=
-github.com/kleister/kleister-go v1.21.0/go.mod h1:ibMOWW5zq0KxhqdpfSipHsRrO9Y136trVkAJwKX9b2k=
+github.com/kleister/kleister-go v1.22.0 h1:f4aRNIxja54+JzhS5E9ae1jd/C6cVI9H8cM9LB0iHIo=
+github.com/kleister/kleister-go v1.22.0/go.mod h1:nJ1u0EQm6gXSH7Bkig96EolU6JPWQF8ksoSvy1r//So=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
