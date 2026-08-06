@@ -1,11 +1,10 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3.40"
 
 vars:
-  SOURCES:
-    sh: find . -name "*.go" -type f -not -path "./.devenv/*" -not -path "./.direnv/*" | xargs echo
-  PACKAGES:
-    sh: go list ./... | xargs echo
+  IMPORT: github.com/kleister/kleister-cli
+  BINARY: kleister-cli
 
 tasks:
   clean:
@@ -16,21 +15,33 @@ tasks:
 
   generate:
     desc: Generate code
+    vars:
+      PACKAGES:
+        sh: go list ./... | xargs echo
     cmds:
       - go generate {{ .PACKAGES }}
 
   fmt:
     desc: Run standard formatter
+    vars:
+      SOURCES:
+        sh: find . -name "*.go" -type f | xargs echo
     cmds:
       - gofmt -s -w {{ .SOURCES }}
 
   vet:
     desc: Run vet linting
+    vars:
+      PACKAGES:
+        sh: go list ./... | xargs echo
     cmds:
       - go vet {{ .PACKAGES }}
 
   lint:
     desc: Run revive linting
+    vars:
+      PACKAGES:
+        sh: go list ./... | xargs echo
     cmds:
       - for PKG in {{ .PACKAGES }}; do go tool github.com/mgechev/revive -config revive.toml -set_exit_status $PKG || exit 1; done;
 
@@ -41,6 +52,9 @@ tasks:
 
   test:
     desc: Run tests
+    vars:
+      PACKAGES:
+        sh: go list ./... | xargs echo
     cmds:
       - go test -coverprofile coverage.out {{ .PACKAGES }}
 
@@ -50,16 +64,21 @@ tasks:
       - go build -v
           -tags 'netgo'
           -ldflags '-s -w -extldflags "-static" -X "{{ .IMPORT }}/pkg/version.String={{ .VERSION }}" -X "{{ .IMPORT }}/pkg/version.Revision={{ .REVISION }}" -X "{{ .IMPORT }}/pkg/version.Date={{ now | date "20060102" }}"'
-          -o bin/kleister-cli{{if eq OS "windows"}}.exe{{end}}
-          ./cmd/kleister-cli
+          -o bin/{{ .BINARY }}{{if eq OS "windows"}}.exe{{end}}
+          ./cmd/{{ .BINARY }}
     env:
       CGO_ENABLED: "0"
+      GOOS: "{{ .GOOS }}"
+      GOARCH: "{{ .GOARCH }}"
     vars:
-      IMPORT: github.com/kleister/kleister-cli
       VERSION:
         sh: if [[ -z "${CI_COMMIT_TAG}" ]]; then git rev-parse --short HEAD; else echo "${CI_COMMIT_TAG#v}"; fi
       REVISION:
         sh: git rev-parse --short HEAD
+      GOOS:
+        sh: go env GOOS
+      GOARCH:
+        sh: go env GOARCH
 
   build:release:
     desc: Generate a release with goreleaser
@@ -69,6 +88,17 @@ tasks:
   build:snapshot:
     desc: Generate a snapshot with goreleaser
     cmds:
-      - goreleaser release --clean --snapshot
+      - goreleaser release --clean --snapshot --skip=announce,publish,validate,sign
+
+  watch:
+    desc: Run reloading development
+    cmds:
+      - task: build
+    watch: true
+    method: none
+    sources:
+      - 'cmd/**/*.go'
+      - 'pkg/**/*.go'
+      - 'pkg/**/*.tmpl'
 
 ...

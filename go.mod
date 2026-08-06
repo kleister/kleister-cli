@@ -1,6 +1,6 @@
 module github.com/kleister/kleister-cli
 
-go 1.25.0
+go 1.26.5
 
 tool (
 	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
