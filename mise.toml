@@ -6,7 +6,7 @@ go = "1.27.1"
 golangci-lint = "2.13.2"
 goreleaser = "2.18.1"
 node = "24"
-prek = "0.5.2"
+prek = "0.5.3"
 s5cmd = "2.3.0"
 task = "3.53.1"
 
