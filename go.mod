@@ -2,11 +2,6 @@ module github.com/kleister/kleister-cli
 
 go 1.26.5
 
-tool (
-	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
-	github.com/mgechev/revive
-)
-
 require (
 	github.com/drone/funcmap v0.0.0-20240227160611-7e19e9cd5a1c
 	github.com/joho/godotenv v1.5.1
