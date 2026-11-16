@@ -5,7 +5,7 @@ go 1.26.5
 require (
 	github.com/drone/funcmap v0.0.0-20240227160611-7e19e9cd5a1c
 	github.com/joho/godotenv v1.5.1
-	github.com/kleister/kleister-go v1.30.0
+	github.com/kleister/kleister-go v1.31.0
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.12.1

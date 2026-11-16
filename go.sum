@@ -23,8 +23,8 @@ github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLf
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
 github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
 github.com/juju/gnuflag v0.0.0-20171113085948-2ce1bb71843d/go.mod h1:2PavIy+JPciBPrBUjwbNvtwB6RQlve+hkpll6QSNmOE=
-github.com/kleister/kleister-go v1.30.0 h1:BdE3o1OqOBtYI6J2dt9H6T71swL2X0b4arwawdjvfhg=
-github.com/kleister/kleister-go v1.30.0/go.mod h1:EwzmSDTTIHeWmF1zkvV989Bz5foiIOzcCu1O2e2GLAw=
+github.com/kleister/kleister-go v1.31.0 h1:y5r3AHQ/g5gZpFtYjxe+dPUg0hY16zNN4ozxxiadkBY=
+github.com/kleister/kleister-go v1.31.0/go.mod h1:EwzmSDTTIHeWmF1zkvV989Bz5foiIOzcCu1O2e2GLAw=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
